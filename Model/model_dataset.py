@@ -2,9 +2,9 @@ import os
 import sys
 import shutil
 
-data_path = r"C:\Users\princ\OneDrive\Desktop\Final Year\project\Model\abc\abc"
-training_path = r"C:\Users\princ\OneDrive\Desktop\Final Year\project\Model\abc\training"
-test_path = r"C:\Users\princ\OneDrive\Desktop\Final Year\project\Model\abc\test"
+data_path = r"C:\Users\rahul\Desktop\Final Year Project\DataSet\archive\Indian Medicinal Leaves Image Datasets\Medicinal Leaf dataset"
+training_path = r"C:\Users\rahul\Desktop\Final Year Project\project\Model\dataset\training"
+test_path = r"C:\Users\rahul\Desktop\Final Year Project\project\Model\dataset\test"
 
 folders = os.scandir(data_path)
 

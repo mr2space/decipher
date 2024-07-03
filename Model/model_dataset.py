@@ -17,10 +17,10 @@ for data in folders:
     images = os.scandir(img_folder)
     img_counter = 0
     for img in images:
-        if img_counter <= (len(images)-35):
-            shutil.copy(os.path.join(img_folder, img), temp_training )
-        else:
+        if img_counter <= (35):
             shutil.copy(os.path.join(img_folder, img), temp_test)
+        else:
+            shutil.copy(os.path.join(img_folder, img), temp_training )
         img_counter += 1
         
         

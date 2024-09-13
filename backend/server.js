@@ -15,29 +15,43 @@ app.use(express.static("static"));
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
+//Login API
 app.post("/user/login", (req, res) => {
   let data = req.body;
   res.send(data);
 });
 
+//Home API
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "templates/home.html"));
 });
 
 //Random GPS location API
-app.get("/random-location", (req, res) => {
-  const randomLat = (Math.random() * 180 - 90).toFixed(6); 
-  const randomLng = (Math.random() * 360 - 180).toFixed(6);
-  res.json({ latitude: randomLat, longitude: randomLng });
+app.post("/user/search", (req, res) => {
+  const searchQuery = req.body.query; 
+
+  if (!searchQuery) {
+    return res.status(400).json({ error: "Search query is required" });
+  }
+
+  const randomLat = (Math.random() * 180 - 90).toFixed(6);
+  const randomLng = (Math.random() * 360 - 180).toFixed(6); 
+
+  res.json({ 
+    searchQuery: searchQuery,
+    latitude: randomLat,
+    longitude: randomLng 
+  });
 });
 
+
 //Static map web API
-app.get("/map", (req, res) => {
+app.get("/user/map", (req, res) => {
   res.sendFile(path.join(__dirname, "templates/map.html"));
 });
 
 //API to take a photo input and generate a random number as JSON output
-app.post("/upload-photo", upload.single("photo"), (req, res) => {
+app.post("/user/upload", upload.single("photo"), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded" });
   }
@@ -49,3 +63,4 @@ app.post("/upload-photo", upload.single("photo"), (req, res) => {
 app.listen(3000, () => {
   console.log("Running on 3000");
 });
+

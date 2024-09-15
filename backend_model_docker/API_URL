@@ -1,0 +1,3 @@
+'/' -> input: {}, output:{status, model_detail}
+
+'/predict' -> input: {'image': <img>}, output: {'species': <sp>}

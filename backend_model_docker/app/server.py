@@ -4,9 +4,9 @@ import tensorflow as tf
 import numpy as np
 from fastapi import *
 
-model:tf.keras.models.Sequential = tf.keras.models.load_model(r"./model.h5")
+model:tf.keras.models.Sequential = tf.keras.models.load_model(r"/app/model.h5")
 class_name = None
-with open("./training_set.pkl", "rb") as f:
+with open("/app/training_set.pkl", "rb") as f:
     class_name = pk.load(f)
 
 class_name = np.array(list(class_name.keys()))
@@ -17,7 +17,7 @@ def init_model():
     Returns:
         [keras_model, class_name]
     """
-    model = tf.keras.models.load_model(r"./model.h5")
+    model = tf.keras.models.load_model(r"/app/model.h5")
     with open("./training_set.pkl", "rb") as f:
         class_name = pk.load(f)
     return [model, class_name]
@@ -37,7 +37,7 @@ def model_status():
 
 @app.post("/predict")
 async def predict_species(image: UploadFile = File(...)):
-    file_save_path="images/"+image.filename
+    file_save_path="/app/images/"+image.filename
     with open(file_save_path, "ab") as f:
         f.write(image.file.read())
     from keras.preprocessing import image

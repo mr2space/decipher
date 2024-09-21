@@ -1,0 +1,4 @@
+
+const AcceptImage = () => {};
+
+export { AcceptImage };

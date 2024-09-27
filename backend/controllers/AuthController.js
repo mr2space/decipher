@@ -1,8 +1,10 @@
 import { User } from "../model/userModel.js";
 import bcrypt from "bcryptjs";
-import { generateToken } from "../Utils/JwtUtil.js"
-import validator from "validator";
+import { Token } from "../model/tokenModel.js";
+import passport from "passport";
+import jwt from "jsonwebtoken";
 import { logger } from "../logger.js";
+import validator from 'validator';
 
 const registerUser = async (req, res) => {
     const { username, password, fullname, email, phone, geolocation } = req.body;
@@ -37,35 +39,40 @@ const registerUser = async (req, res) => {
     });
 
     await user.save();
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    const newToken = new Token({ userId: user._id, token });
+    await newToken.save();
+
     logger.info(`User registered: ${username}`);
     res.status(201).json({
         status: "success",
         message: "User registration successful",
-        token: generateToken(user),
+        token,
         data: { username, fullname, email, phone, geolocation }
     });
 };
-
 
 const loginUser = async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
 
     if (user && (await bcrypt.compare(password, user.password))) {
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const newToken = new Token({ userId: user._id, token });
+        await newToken.save();
+
         logger.info(`User logged in: ${username}`);
         res.json({
             status: "success",
             message: "User login successful",
-            token: generateToken(user)
+            token
         });
     } else {
-        if (!user) {
-            logger.warn(`User does not exist: ${username}`);
-            return res.status(404).json({ status: "error", message: "User does not exist" });
-        }
-        logger.warn(`Login has failed for Username: ${username}`);
+        logger.warn(`Invalid login attempt for Username: ${username}`);
         res.status(401).json({ status: "error", message: "Invalid username or password" });
     }
 };
 
-export {registerUser, loginUser};
+export { registerUser, loginUser };

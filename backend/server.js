@@ -1,20 +1,23 @@
 import bodyParser from "body-parser";
 import express from "express";
 import { configDotenv } from "dotenv";
+import router from "./routes/AuthRouter.js"
 import { logger } from "./logger.js";
+import { mongo } from "./config/mongoConfig.js";
 
 
-configDotenv(".env")
+configDotenv();
 
 const app = express();
+const PORT=process.env.PORT||5000;
 
-app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
-
-app.use("/", ()=>{} );
-app.use("/auth", ()=>{} );
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.listen(8080, (err)=>{
-    console.log("server started: 8080");
+app.use("/user", router);
+mongo();
+app.listen(PORT, (err)=>{
+    logger.info(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 })

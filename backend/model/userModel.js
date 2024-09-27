@@ -1,7 +1,31 @@
 import mongoose from "mongoose";
-import { mongo } from "../config/mongoConfig";
 
+const userSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        require: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    fullname: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    phone: {
+        type: String,
+        required: true
+    },
+    geolocation: {
+        type: String,
+        required: true
+    }
+},{timestamps:true});
 
-const user = new mongoose.model();
-
-export { user };
+export const User = mongoose.model("User",userSchema);

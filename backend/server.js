@@ -5,7 +5,7 @@ import router from "./routes/AuthRouter.js";
 import { logger } from "./logger.js";
 import { mongo } from "./config/mongoConfig.js";
 import passport from "passport";
-import jwtStrategy from "./Utils/pasportStrategy.js";
+import {jwtStrategy} from "./Utils/pasportStrategy.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 
@@ -19,15 +19,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(session({
-    secret: process.env.SESSION_SECRET || "gjkvjhgub",
+    secret: process.env.SESSION_SECRET || "sanjeevani",
     resave: false,
     saveUninitialized: true
 }));
 
 app.use(passport.initialize());
+app.use(passport.session())
 passport.use(jwtStrategy); 
 
-app.use("/user", router);
+app.use("/auth", router);
 mongo();
 
 app.listen(PORT, (err) => {

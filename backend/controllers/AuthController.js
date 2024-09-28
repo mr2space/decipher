@@ -21,7 +21,7 @@ const registerUser = async (req, res) => {
         return res.status(400).json({ status: "error", message: "Invalid phone number format." });
     }
 
-    const userExists = await User.findOne({ email });
+    const userExists = await User.findOne({ email }) || await User.findOne({ username });
     if (userExists) {
         logger.warn("User already exists");
         return res.status(400).json({ status: "error", message: "User already exists" });
@@ -75,4 +75,9 @@ const loginUser = async (req, res) => {
     }
 };
 
-export { registerUser, loginUser };
+
+const testSecureControl = (req, res)=>{
+    res.status(200).json({"success": 1})
+}
+
+export { registerUser, loginUser, testSecureControl };

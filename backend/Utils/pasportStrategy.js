@@ -4,7 +4,7 @@ import { Token } from "../model/tokenModel.js";
 
 const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.JWT_SECRET
+    secretOrKey: process.env.JWT_SECRET || "sanjeevani"
 };
 
 const jwtStrategy = new JwtStrategy(opts, async (jwt_payload, done) => {
@@ -25,4 +25,4 @@ const jwtStrategy = new JwtStrategy(opts, async (jwt_payload, done) => {
     }
 });
 
-export default jwtStrategy;
+export {jwtStrategy};

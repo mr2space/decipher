@@ -1,11 +1,18 @@
-import {express} from "express"
+import express from "express";
+import { registerUser, loginUser } from "../controllers/AuthController.js";
+import { protect } from "../middleware/isAuthenticated.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.route("/login").get();
-router.route("/login").post();
+router.post("/register", registerUser);
+router.post("/login", loginUser);
 
-router.router("/register").get();
-router.router("/register").post();
+router.get("/profile", protect, (req, res) => {
+    res.json({
+        status: "success",
+        message: "Profile accessed",
+        data: req.user
+    });
+});
 
-export {router as authRouter};
+export default router;

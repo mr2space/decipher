@@ -2,6 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,15 +15,21 @@
   "description": "",
   "dependencies": {
     "@google/generative-ai": "^0.19.0",
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
-    "mongoose": "^8.6.3",
+    "express-session": "^1.18.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.7.0",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.7",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
-    "pino": "^9.4.0"
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
+    "pino": "^9.4.0",
+    "validator": "^13.12.0"
   }
 }

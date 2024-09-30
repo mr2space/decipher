@@ -7,8 +7,7 @@ const userSchema = new mongoose.Schema({
         unique: true
     },
     password: {
-        type: String,
-        required: true,
+        type: String // TODO: ADD REQUIRED LATER
     },
     fullname: {
         type: String,
@@ -25,6 +24,10 @@ const userSchema = new mongoose.Schema({
     geolocation: {
         type: String,
         required: true
+    },
+    loginType:{
+        type:String,
+        required:true
     }
 },{timestamps:true});
 

@@ -1,11 +1,11 @@
 import express from "express";
 import bodyParser from "body-parser";
 import { configDotenv } from "dotenv";
-import router from "./routes/AuthRouter.js";
+import {router as authRoute} from "./routes/AuthRouter.js";
 import { logger } from "./logger.js";
 import { mongo } from "./config/mongoConfig.js";
 import passport from "passport";
-import {jwtStrategy} from "./Utils/pasportStrategy.js";
+import {googleDeserialize, googleSerialize, googleStrategy, jwtStrategy} from "./Utils/pasportStrategy.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 
@@ -26,9 +26,14 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session())
-passport.use(jwtStrategy); 
+passport.use("local",jwtStrategy);
+passport.use("google",googleStrategy);
 
-app.use("/auth", router);
+passport.serializeUser(googleSerialize);
+passport.deserializeUser(googleDeserialize);
+
+
+app.use("/auth", authRoute);
 mongo();
 
 app.listen(PORT, (err) => {

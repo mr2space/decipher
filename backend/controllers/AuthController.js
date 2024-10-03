@@ -155,4 +155,32 @@ const failure_oauth = (req, res)=>{
     res.status(400).json({"success":0})
 }
 
-export { registerUser, loginUser, testSecureControl, failure_oauth, success_oauth};
+const deleteUser = async (req, res) => {
+    const { user_id, password } = req.body;
+
+    if (!user_id || !password) {
+        return res.status(400).json({ status: "error", message: "Username or Email and Password are required." });
+    }
+
+    const user = await User.findOne({ $or: [{ email: user_id }, { username: user_id }] });
+
+    if (!user) {
+        logger.warn(`Delete attempt failed: No user found with identifier ${user_id}`);
+        return res.status(404).json({ status: "error", message: "User not found." });
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    if (!isPasswordMatch) {
+        logger.warn(`Delete attempt failed: Incorrect password for user ${user_id}`);
+        return res.status(401).json({ status: "error", message: "Invalid password." });
+    }
+
+    await User.deleteOne({ _id: user._id });
+    await Token.deleteMany({ userId: user._id });
+
+    logger.info(`User deleted: ${user_id}`);
+    res.status(200).json({ status: "success", message: `User ${user_id} deleted successfully.` });
+};
+
+
+export { registerUser, loginUser, testSecureControl, failure_oauth, success_oauth, deleteUser};

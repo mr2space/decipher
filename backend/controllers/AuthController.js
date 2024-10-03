@@ -36,13 +36,14 @@ const registerUser = async (req, res) => {
         email,
         phone,
         geolocation,
+        loginType:1
     });
 
     await user.save();
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    const newToken = new Token({ userId: user._id, token });
+    const newToken = new Token({ userId: user._id,username:user.username, token });
     await newToken.save();
 
     logger.info(`User registered: ${username}`);
@@ -60,7 +61,10 @@ const loginUser = async (req, res) => {
 
     if (user && (await bcrypt.compare(password, user.password))) {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        const newToken = new Token({ userId: user._id, token });
+
+        
+        // TODO: make it a funtion and call for both the login and register.
+        const newToken = new Token({ userId: user._id,username:user.username, token }); 
         await newToken.save();
 
         logger.info(`User logged in: ${username}`);

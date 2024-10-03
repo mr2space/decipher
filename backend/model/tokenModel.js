@@ -6,6 +6,10 @@ const tokenSchema = mongoose.Schema({
         ref: 'User',
         required: true
     },
+    username:{
+        type:String,
+        required:true
+    },
     token: {
         type: String,
         required: true

@@ -47,7 +47,7 @@ const googleStrategy = new GoogleStrategy({
             email: profile.emails[0].value,
             phone:"N/A",
             geolocation:"N/A",
-            loginType:"OAuth2.0"
+            loginType:0
         });
         await user.save();
       }

@@ -2,6 +2,7 @@ import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import { User } from "../model/userModel.js";
 import { Token } from "../model/tokenModel.js";
+import {logger} from '../logger.js';
 import { configDotenv } from "dotenv"; 
 import pkg from 'passport-google-oauth20'; 
 const { Strategy: GoogleStrategy } = pkg;
@@ -34,12 +35,13 @@ const jwtStrategy = new JwtStrategy(opts, async (jwt_payload, done) => {
 const googleStrategy = new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:7000/auth/oauth/callback",
+    callbackURL: "http://localhost:7000/auth/oauth/callback/",
     passReqToCallback: true,
   },
   async (request, accessToken, refreshToken, profile, done) => {
     try {
-      let user = await User.findOne({ googleId: profile.id });
+      logger.info(JSON.stringify(profile))
+      let user = await User.findOne({ username: profile.id });
       if (!user) {
         user = new User({
             username: profile.id,
@@ -51,7 +53,7 @@ const googleStrategy = new GoogleStrategy({
         });
         await user.save();
       }
-      return done(null, user);
+      return done(null, profile);
     } catch (err) {
       return done(err, null);
     }
@@ -61,13 +63,13 @@ const googleStrategy = new GoogleStrategy({
 
 
 const googleSerialize = async (user, done) => {
-    done(null, user.id);
+    done(null, user);
   };
 
 const googleDeserialize =   async (id, done) => {
     try {
       const user = await User.findById(id);
-      done(null, user);
+      done(null, id);
     } catch (err) {
       done(err, null);
     }

@@ -25,8 +25,8 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    loginType:{
-        type:String,
+    loginType:{   // 1-> jwt  0 -> oauth
+        type:Number,
         required:true
     }
 },{timestamps:true});

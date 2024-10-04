@@ -8,6 +8,7 @@ import passport from "passport";
 import {googleDeserialize, googleSerialize, googleStrategy, jwtStrategy} from "./src/Utils/pasportStrategy.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
+import { authenticate } from "./src/middleware/auth.middleware.js";
 
 configDotenv();
 
@@ -24,13 +25,8 @@ app.use(session({
     saveUninitialized: true
 }));
 
-passport.use("local",jwtStrategy);
-// passport.use("google",googleStrategy);
 
-passport.serializeUser(googleSerialize);
-passport.deserializeUser(googleDeserialize);
-app.use(passport.initialize());
-app.use(passport.session())
+
 app.use("/auth", authRoute);
 mongo();
 

@@ -1,28 +1,27 @@
 import express from "express";
 import {
-  registerUser,
-  loginUser,
-  success_oauth,
-  failure_oauth,
-  deleteUser
+    registerUser,
+    loginUser,
+    logoutUser,
+    deleteUser,
 } from "../controllers/user.controller.js";
-import { protect } from "../middleware/isAuthenticated.js";
+import { authenticate } from "../middleware/auth.middleware.js";
 import passport from "passport";
 import jwt from "jsonwebtoken";
-
 
 const router = express.Router();
 
 router.post("/register", registerUser);
-// router.post("/login", loginUser);
-// router.post("/delete", deleteUser);
+router.post("/login", loginUser);
+router.get("/logout", logoutUser);
+router.post("/delete", deleteUser);
 
-router.get("/profile", protect, (req, res) => {
-  res.json({
-    status: "success",
-    message: "Profile accessed",
-    data: req.user,
-  });
+router.get("/profile", authenticate, (req, res) => {
+    res.json({
+        status: "success",
+        message: "Profile accessed",
+        data: req.user,
+    });
 });
 
 // router.get(
@@ -36,18 +35,18 @@ router.get("/profile", protect, (req, res) => {
 //   "/oauth/callback",
 //   async (req, res)=>{
 //     const user = req.user
-//     console.log(user);    
+//     console.log(user);
 //     const token = jwt.sign({ id: user._id, username:username, email:email }, process.env.JWT_SECRET, {
 //       expiresIn: "1h",
 //     });
-  
+
 //     const newToken = new Token({
 //       userId: user._id,
 //       username: user.username,
 //       token,
 //     });
 //     await newToken.save();
-  
+
 //     logger.info(`User registered: ${username}`);
 //     res.status(201).json({
 //       status: "success",
@@ -57,7 +56,5 @@ router.get("/profile", protect, (req, res) => {
 //     });
 //   }
 // );
-
-
 
 export { router };

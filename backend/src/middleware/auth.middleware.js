@@ -1,8 +1,9 @@
 import jwt from "jsonwebtoken";
 import { User } from "../model/user.model.js";
 import { logger } from "../../logger.js";
+import { ApiError } from "../Utils/ApiError.js";
 
-export const protect = async (req, res, next) => {
+export const authenticate = async (req, res, next) => {
     let token;
     if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
         try {
@@ -11,12 +12,7 @@ export const protect = async (req, res, next) => {
             req.user = await User.findById(decoded.id).select("-password");
             next();
         } catch (error) {
-            console.error(error);
-            return res.status(401).json({ message: "Not authorized, token failed" });
+            throw new ApiError(401, "user is not authorized");
         }
     }
-
-    // if (!token) {
-    //     return res.status(401).json({ message: "Not authorized, no token" });
-    // }
 };

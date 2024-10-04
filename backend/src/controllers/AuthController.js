@@ -1,9 +1,9 @@
-import { User } from "../model/userModel.js";
+import { User } from "../src/model/userModel.js.js";
 import bcrypt from "bcryptjs";
-import { Token } from "../model/tokenModel.js";
+import { Token } from "../src/model/tokenModel.js.js";
 import passport from "passport";
 import jwt from "jsonwebtoken";
-import { logger } from "../logger.js";
+import { logger } from "../../logger.js";
 import validator from "validator";
 
 const registerUser = async (req, res) => {

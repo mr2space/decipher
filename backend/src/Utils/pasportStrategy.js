@@ -2,7 +2,7 @@ import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import { User } from "../model/userModel.js";
 import { Token } from "../model/tokenModel.js";
-import {logger} from '../logger.js';
+import {logger} from '../../logger.js';
 import { configDotenv } from "dotenv"; 
 import pkg from 'passport-google-oauth20'; 
 const { Strategy: GoogleStrategy } = pkg;

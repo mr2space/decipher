@@ -1,11 +1,11 @@
 import express from "express";
 import bodyParser from "body-parser";
 import { configDotenv } from "dotenv";
-import {router as authRoute} from "./routes/AuthRouter.js";
+import {router as authRoute} from "./src/routes/AuthRouter.js";
 import { logger } from "./logger.js";
-import { mongo } from "./config/mongoConfig.js";
+import { mongo } from "./src/config/mongoConfig.js";
 import passport from "passport";
-import {googleDeserialize, googleSerialize, googleStrategy, jwtStrategy} from "./Utils/pasportStrategy.js";
+import {googleDeserialize, googleSerialize, googleStrategy, jwtStrategy} from "./src/Utils/pasportStrategy.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 

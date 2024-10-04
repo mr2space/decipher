@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
     username: {
       type: String,
       require: true,
@@ -23,6 +23,10 @@ const userSchema = new Schema({
       required: true,
       trim: true,
       index: true,
+    },
+    gender:{
+        type:String,
+        required:true
     },
     phone: {
       type: String,
@@ -71,7 +75,7 @@ userSchema.methods.generateAccessToken = function () {
       username: this.username,
       fullName: this.fullName,
     },
-    process.env.ACCESS_TOKEN_SECRET,
+    process.env.ACCESS_TOKEN_SECRET, 
     {
       expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
     }

@@ -5,7 +5,7 @@ import {
   success_oauth,
   failure_oauth,
   deleteUser
-} from "../controllers/AuthController.js";
+} from "../controllers/user.controller.js";
 import { protect } from "../middleware/isAuthenticated.js";
 import passport from "passport";
 import jwt from "jsonwebtoken";

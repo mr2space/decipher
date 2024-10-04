@@ -40,7 +40,6 @@ const googleStrategy = new GoogleStrategy({
   },
   async (request, accessToken, refreshToken, profile, done) => {
     try {
-      logger.info(JSON.stringify(profile))
       let user = await User.findOne({ username: profile.id });
       if (!user) {
         user = new User({
@@ -53,7 +52,7 @@ const googleStrategy = new GoogleStrategy({
         });
         await user.save();
       }
-      return done(null, profile);
+      return done(null, user);
     } catch (err) {
       return done(err, null);
     }
@@ -61,12 +60,15 @@ const googleStrategy = new GoogleStrategy({
 );
 
 
-
 const googleSerialize = async (user, done) => {
+    console.log("user serializer", user);
+    
     done(null, user);
   };
 
-const googleDeserialize =   async (id, done) => {
+const googleDeserialize = async (id, done) => {
+  // return done(null, user);
+  console.log("user deserializer", user);
     try {
       const user = await User.findById(id);
       done(null, id);

@@ -7,6 +7,8 @@ import {
 } from "../controllers/AuthController.js";
 import { protect } from "../middleware/isAuthenticated.js";
 import passport from "passport";
+import jwt from "jsonwebtoken";
+
 
 const router = express.Router();
 
@@ -30,11 +32,28 @@ router.get(
 
 router.get(
   "/oauth/callback",
-  passport.authenticate("google", {
-    scope: ["email", "profile"],
-    failureRedirect: "/auth/oauth/failure",
-  }),
-  (req, res)=>{res.send("hello")}
+  async (req, res)=>{
+    const user = req.user
+    console.log(user);    
+    const token = jwt.sign({ id: user._id, username:username, email:email }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+  
+    const newToken = new Token({
+      userId: user._id,
+      username: user.username,
+      token,
+    });
+    await newToken.save();
+  
+    logger.info(`User registered: ${username}`);
+    res.status(201).json({
+      status: "success",
+      message: "User registration successful",
+      token,
+      data: { username, fullname, email, phone, geolocation },
+    });
+  }
 );
 
 export { router };

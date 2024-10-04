@@ -24,15 +24,13 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.use(passport.initialize());
-app.use(passport.session())
 passport.use("local",jwtStrategy);
-passport.use("google",googleStrategy);
+// passport.use("google",googleStrategy);
 
 passport.serializeUser(googleSerialize);
 passport.deserializeUser(googleDeserialize);
-
-
+app.use(passport.initialize());
+app.use(passport.session())
 app.use("/auth", authRoute);
 mongo();
 

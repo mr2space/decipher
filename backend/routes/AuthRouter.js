@@ -4,6 +4,7 @@ import {
   loginUser,
   success_oauth,
   failure_oauth,
+  deleteUser
 } from "../controllers/AuthController.js";
 import { protect } from "../middleware/isAuthenticated.js";
 import passport from "passport";
@@ -14,6 +15,7 @@ const router = express.Router();
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
+router.post("/delete", deleteUser);
 
 router.get("/profile", protect, (req, res) => {
   res.json({
@@ -55,5 +57,7 @@ router.get(
     });
   }
 );
+
+
 
 export { router };

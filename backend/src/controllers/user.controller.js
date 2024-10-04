@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import { logger } from "../../logger.js";
 import validator from "validator"; 
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { ApiError } from "../utils/ApiError.js" 
+import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 
 const generateAccessAndRefereshTokens = async (userId) => {
@@ -27,7 +27,7 @@ const generateAccessAndRefereshTokens = async (userId) => {
 }
 
 
-const registerUser = async (req, res) => {
+const registerUser = asyncHandler(async (req, res) => {
   const { username, password, fullname, email, phone, geolocation, gender } = req.body;
 
   if (!username || !password || !fullname || !email || !phone || !geolocation || !gender) {
@@ -74,7 +74,7 @@ const registerUser = async (req, res) => {
     avatar: gender === "male" ? maleProfilePhoto : femaleProfilePhoto,
     loginType: 1,
   });
-
+  await user.save();
   const createdUser = await User.findById(user._id).select(
     "-password -refreshToken"
   )
@@ -84,6 +84,7 @@ const registerUser = async (req, res) => {
   return res.status(201).json(
     new ApiResponse(200, createdUser, "User registered Successfully")
   )
+});
 
   // await user.save();
 
@@ -105,7 +106,7 @@ const registerUser = async (req, res) => {
   //   token,
   //   data: { username, fullname, email, phone, geolocation },
   // });
-};
+// };
 
 const loginUser = asyncHandler(async (req, res) => {
   const { email, username, password } = req.body;

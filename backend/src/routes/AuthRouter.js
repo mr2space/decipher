@@ -14,8 +14,8 @@ import jwt from "jsonwebtoken";
 const router = express.Router();
 
 router.post("/register", registerUser);
-router.post("/login", loginUser);
-router.post("/delete", deleteUser);
+// router.post("/login", loginUser);
+// router.post("/delete", deleteUser);
 
 router.get("/profile", protect, (req, res) => {
   res.json({
@@ -25,38 +25,38 @@ router.get("/profile", protect, (req, res) => {
   });
 });
 
-router.get(
-  "/oauth",
-  passport.authenticate("google", {
-    scope: ["email", "profile"],
-  })
-); // This is for OAuth registration
+// router.get(
+//   "/oauth",
+//   passport.authenticate("google", {
+//     scope: ["email", "profile"],
+//   })
+// ); // This is for OAuth registration
 
-router.get(
-  "/oauth/callback",
-  async (req, res)=>{
-    const user = req.user
-    console.log(user);    
-    const token = jwt.sign({ id: user._id, username:username, email:email }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+// router.get(
+//   "/oauth/callback",
+//   async (req, res)=>{
+//     const user = req.user
+//     console.log(user);    
+//     const token = jwt.sign({ id: user._id, username:username, email:email }, process.env.JWT_SECRET, {
+//       expiresIn: "1h",
+//     });
   
-    const newToken = new Token({
-      userId: user._id,
-      username: user.username,
-      token,
-    });
-    await newToken.save();
+//     const newToken = new Token({
+//       userId: user._id,
+//       username: user.username,
+//       token,
+//     });
+//     await newToken.save();
   
-    logger.info(`User registered: ${username}`);
-    res.status(201).json({
-      status: "success",
-      message: "User registration successful",
-      token,
-      data: { username, fullname, email, phone, geolocation },
-    });
-  }
-);
+//     logger.info(`User registered: ${username}`);
+//     res.status(201).json({
+//       status: "success",
+//       message: "User registration successful",
+//       token,
+//       data: { username, fullname, email, phone, geolocation },
+//     });
+//   }
+// );
 
 
 

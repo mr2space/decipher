@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
     username: {
         type: String,
         require: true,
@@ -33,7 +33,7 @@ const userSchema = new Schema({
         required: true
     },
     avatar: {
-        type: String, // cloudinary url
+        type: String, 
         required: true,
     },
     password: {

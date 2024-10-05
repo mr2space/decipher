@@ -1,14 +1,13 @@
 import express from "express";
 import bodyParser from "body-parser";
 import { configDotenv } from "dotenv";
-import {router as authRoute} from "./src/routes/AuthRouter.js";
+import {router as authRoute} from "./src/routes/auth.router.js";
 import { logger } from "./logger.js";
 import { mongo } from "./src/config/mongoConfig.js";
-import passport from "passport";
-import {googleDeserialize, googleSerialize, googleStrategy, jwtStrategy} from "./src/Utils/pasportStrategy.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
-import { authenticate } from "./src/middleware/auth.middleware.js";
+import passport from "passport";
+import { googleDeserialize, googleSerialize, googleStrategy } from "./src/Utils/pasportStrategy.js";
 
 configDotenv();
 
@@ -18,15 +17,15 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-
 app.use(session({
     secret: process.env.SESSION_SECRET || "sanjeevani",
     resave: false,
     saveUninitialized: true
 }));
-
-
-
+app.use(passport.initialize());
+passport.use(googleStrategy);
+passport.serializeUser(googleSerialize);
+passport.deserializeUser(googleDeserialize);
 app.use("/auth", authRoute);
 mongo();
 

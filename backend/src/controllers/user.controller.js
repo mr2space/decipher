@@ -14,7 +14,7 @@ const generateAccessAndRefereshTokens = async (userId) => {
         const user = await User.findById(userId);
         const accessToken = user.generateAccessToken();
         const refreshToken = user.generateRefreshToken();
-
+        
         user.refreshToken = refreshToken;
         await user.save({ validateBeforeSave: false });
 
@@ -222,27 +222,27 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 });
 
 const deleteUser = asyncHandler(async (req, res) => {
-    const { email, username, password } = req.body;
+    // const { email, username, password } = req.body;
 
-    if (!email && !username) {
-        throw new ApiError(400, "username or email is required");
-    }
+    // if (!email && !username) {
+    //     throw new ApiError(400, "username or email is required");
+    // }
 
     const user = await User.findOne({
-        $or: [{ email: email }, { username: username }],
+        $or: [{ email: req.user?.email }, { username: req.user?.username }],
     });
     if (!user) {
         throw new ApiError(404, "User not found");
     }
-    const isPasswordValid = user.isPasswordCorrect(password);
+    // const isPasswordValid = user.isPasswordCorrect(password);
 
-    if (!isPasswordValid) {
-        throw new ApiError(401, "Password is incorrect");
-    }
+    // if (!isPasswordValid) {
+    //     throw new ApiError(401, "Password is incorrect");
+    // }
 
     await User.deleteOne({ _id: user._id });
 
-    logger.info(`User deleted: ${username}`);
+    logger.info(`User deleted: ${user.username}`);
     const options = {
         httpOnly: true,
         secure: true,
@@ -255,4 +255,59 @@ const deleteUser = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, {}, "user deleted"));
 });
 
-export { registerUser, loginUser, refreshAccessToken, logoutUser, deleteUser };
+const profile = asyncHandler(async (req, res) => {
+    const user = req.user;
+    try {
+        res.json(new ApiResponse(200, req.user, "user profile"));
+    } catch (error) {
+        throw new ApiError(401, error?.message || "unauthorized user");
+    }
+});
+
+const googleOAuthCallback = asyncHandler(async (req, res) => {
+    try {
+        const user = await User.findOne({
+                $or:[{username:req.user?.username}, {email:req.user?.email}]
+            });
+        if (!user){
+            throw new ApiError(401, "user invalid or UnAuthorized");
+        }
+        const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(
+            user._id
+        );
+        const loggedUser = await User.findById(user._id).select(
+            "-password -refreshToken -loginType"
+        );
+        const options = {
+            httpOnly: true,
+            secure: true,
+        };
+        return res
+            .status(200)
+            .cookie("accessToken", accessToken, options)
+            .cookie("refreshToken", refreshToken, options)
+            .json(
+                new ApiResponse(
+                    200,
+                    {
+                        user: loggedUser,
+                        accessToken,
+                        refreshToken,
+                    },
+                    "User logged In Successfully"
+                )
+            );
+    } catch (error) {
+        throw new ApiError(401, error?.message || "unauthorized access");
+    }
+});
+
+export {
+    registerUser,
+    loginUser,
+    refreshAccessToken,
+    logoutUser,
+    deleteUser,
+    profile,
+    googleOAuthCallback
+};

@@ -30,14 +30,12 @@ const userSchema = new mongoose.Schema({
     },
     phone: {
       type: String,
-      required: true,
     },
     geolocation: {
       type: String,
-      required: true,
     },
     avatar: {
-        type: String, // cloudinary url
+        type: String, 
         required: true,
     },
     password: {

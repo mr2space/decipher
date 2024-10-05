@@ -1,7 +1,4 @@
 import { User } from "../model/user.model.js";
-import bcrypt from "bcryptjs";
-import { Token } from "../model/tokenModel.js";
-import passport from "passport";
 import jwt from "jsonwebtoken";
 import { logger } from "../../logger.js";
 import validator from "validator";
@@ -14,7 +11,7 @@ const generateAccessAndRefereshTokens = async (userId) => {
         const user = await User.findById(userId);
         const accessToken = user.generateAccessToken();
         const refreshToken = user.generateRefreshToken();
-        
+
         user.refreshToken = refreshToken;
         await user.save({ validateBeforeSave: false });
 
@@ -222,23 +219,12 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 });
 
 const deleteUser = asyncHandler(async (req, res) => {
-    // const { email, username, password } = req.body;
-
-    // if (!email && !username) {
-    //     throw new ApiError(400, "username or email is required");
-    // }
-
     const user = await User.findOne({
         $or: [{ email: req.user?.email }, { username: req.user?.username }],
     });
     if (!user) {
         throw new ApiError(404, "User not found");
     }
-    // const isPasswordValid = user.isPasswordCorrect(password);
-
-    // if (!isPasswordValid) {
-    //     throw new ApiError(401, "Password is incorrect");
-    // }
 
     await User.deleteOne({ _id: user._id });
 
@@ -267,14 +253,13 @@ const profile = asyncHandler(async (req, res) => {
 const googleOAuthCallback = asyncHandler(async (req, res) => {
     try {
         const user = await User.findOne({
-                $or:[{username:req.user?.username}, {email:req.user?.email}]
-            });
-        if (!user){
+            $or: [{ username: req.user?.username }, { email: req.user?.email }],
+        });
+        if (!user) {
             throw new ApiError(401, "user invalid or UnAuthorized");
         }
-        const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(
-            user._id
-        );
+        const { accessToken, refreshToken } =
+            await generateAccessAndRefereshTokens(user._id);
         const loggedUser = await User.findById(user._id).select(
             "-password -refreshToken -loginType"
         );
@@ -309,5 +294,5 @@ export {
     logoutUser,
     deleteUser,
     profile,
-    googleOAuthCallback
+    googleOAuthCallback,
 };

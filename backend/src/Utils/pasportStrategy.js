@@ -5,6 +5,7 @@ import { Token } from "../model/tokenModel.js";
 import { logger } from "../../logger.js";
 import { configDotenv } from "dotenv";
 import pkg from "passport-google-oauth20";
+
 const { Strategy: GoogleStrategy } = pkg;
 
 configDotenv();
@@ -45,17 +46,36 @@ const googleStrategy = new GoogleStrategy(
         passReqToCallback: true,
     },
     async (request, accessToken, refreshToken, profile, done) => {
+
+        /*
+          _json: {
+            sub: '105222293808499159624',
+            name: 'Prince Goswami',
+            given_name: 'Prince',
+            family_name: 'Goswami',
+            picture: 'https://lh3.googleusercontent.com/a/ACg8ocJmzq8wxbD_s-w6m5U30dT8mZBcRAq_rbtmxZR-sRLn-kDKR4_A=s96-c',
+            email: 'princegoswami.space@gmail.com',
+            email_verified: true
+        }
+        */
         try {
-            let user = await User.findOne({ username: profile.id });
-            if (!user) {
-                user = new User({
-                    username: profile.id,
-                    fullname: profile.displayName,
-                    email: profile.emails[0].value,
-                    phone: "N/A",
-                    geolocation: "N/A",
-                    loginType: 0,
-                });
+            const userData = profile._json;
+            const username = userData.email.split('@')[0]
+            let user = await User.findOne({
+                $or:[{username:username}, {email:profile._json.email[0]}]
+            });
+            if (!user){
+                const username = userData.email.split('@')[0]
+                const password = `${userData.sub}${userData.email}`
+                user = await User({
+                    username,
+                    email:userData.email,
+                    fullname:userData.name,
+                    gender:"male",
+                    avatar: userData.picture,
+                    password:password,
+                    loginType:0
+                })
                 await user.save();
             }
             return done(null, user);
@@ -75,7 +95,6 @@ const googleDeserialize = async (id, done) => {
     // return done(null, user);
     console.log("user deserializer", user);
     try {
-        const user = await User.findById(id);
         done(null, id);
     } catch (err) {
         done(err, null);

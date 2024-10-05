@@ -30,14 +30,12 @@ const userSchema = new mongoose.Schema({
     },
     phone: {
       type: String,
-      required: true,
     },
     geolocation: {
       type: String,
-      required: true,
     },
     avatar: {
-        type: String, // cloudinary url
+        type: String, 
         required: true,
     },
     password: {
@@ -73,7 +71,7 @@ userSchema.methods.generateAccessToken = function () {
       _id: this._id,
       email: this.email,
       username: this.username,
-      fullname: this.fullName,
+      fullname: this.fullname,
     },
     process.env.ACCESS_TOKEN_SECRET, 
     {

@@ -71,7 +71,7 @@ const registerUser = asyncHandler(async (req, res) => {
     email,
     phone,
     geolocation,
-    avatar: gender === "male" ? maleProfilePhoto : femaleProfilePhoto,
+    avatar: gender === "male" ? maleProfilePhoto : femaleProfilePhoto, 
     loginType: 1,
   });
   await user.save();

@@ -68,33 +68,50 @@ const registerUser = asyncHandler(async (req, res) => {
 
     // const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new User({
-        username: username.toLowerCase(),
-        password,
-        fullname,
-        gender,
-        email,
-        phone,
-        geolocation,
-        avatar: gender === "male" ? maleProfilePhoto : femaleProfilePhoto,
-        loginType: 1,
-    });
-    await user.save();
-    const createdUser = await User.findById(user._id).select(
-        "-password -refreshToken"
-    );
-    if (!createdUser) {
-        throw new ApiError(
-            500,
-            "Something went wrong while registering the user"
-        );
-    }
-    return res
-        .status(201)
-        .json(
-            new ApiResponse(200, createdUser, "User registered Successfully")
-        );
+  const user = new User({
+    username: username.toLowerCase(),
+    password,
+    fullname,
+    gender,
+    email,
+    phone,
+    geolocation,
+    avatar: gender === "male" ? maleProfilePhoto : femaleProfilePhoto,
+    loginType: 1,
+  });
+  await user.save();
+  const createdUser = await User.findById(user._id).select(
+    "-password -refreshToken"
+  )
+  if (!createdUser) {
+    throw new ApiError(500, "Something went wrong while registering the user")
+  }
+  return res.status(201).json(
+    new ApiResponse(200, createdUser, "User registered Successfully")
+  )
 });
+
+  // await user.save();
+
+  // const token = jwt.sign({ id: user._id, username: user.username, email: user.email }, process.env.JWT_SECRET, {
+  //   expiresIn: "1h",
+  // });
+
+  // const newToken = new Token({
+  //   userId: user._id,
+  //   username: user.username,
+  //   token,
+  // });
+  // await newToken.save();
+
+  // logger.info(`User registered: ${username}`);
+  // res.status(201).json({
+  //   status: "success",
+  //   message: "User registration successful",
+  //   token,
+  //   data: { username, fullname, email, phone, geolocation },
+  // });
+// };
 
 const loginUser = asyncHandler(async (req, res) => {
     const { email, username, password } = req.body;

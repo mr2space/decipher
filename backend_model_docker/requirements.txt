@@ -1,3 +1,4 @@
 tensorflow
 fastapi[standard]
 numpy
+uvicorn

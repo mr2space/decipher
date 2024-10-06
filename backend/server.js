@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import { configDotenv } from "dotenv";
 import {router as authRoute} from "./src/routes/auth.router.js";
+import { imageUploadRouter } from "./src/routes/image.upload.router.js"; 
 import { logger } from "./logger.js";
 import { mongo } from "./src/config/mongoConfig.js";
 import session from "express-session";
@@ -27,6 +28,7 @@ passport.use(googleStrategy);
 passport.serializeUser(googleSerialize);
 passport.deserializeUser(googleDeserialize);
 app.use("/auth", authRoute);
+app.use("/",imageUploadRouter);
 mongo();
 
 app.listen(PORT, (err) => {

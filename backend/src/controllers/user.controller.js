@@ -41,7 +41,7 @@ const registerUser = asyncHandler(async (req, res) => {
             .status(400)
             .json({ status: "error", message: "All fields are required." });
     }
-
+    //TODO: SET ERROR TO NEW APIERROR
     if (!validator.isEmail(email)) {
         return res
             .status(400)

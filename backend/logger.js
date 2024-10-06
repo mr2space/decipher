@@ -1,20 +1,24 @@
-import pino from "pino";
-import fs from "fs";
-import path from "path";
+import { createLogger, format, transports } from "winston";
+const { combine, timestamp, json, colorize } = format;
 
-const logDirectory = path.join(process.cwd(), "logs");
-if (!fs.existsSync(logDirectory)) {
-  fs.mkdirSync(logDirectory, { recursive: true });
-}
+// Custom format for console logging with colors
+const consoleLogFormat = format.combine(
+  format.colorize(),
+  format.printf(({ level, message, timestamp }) => {
+    return `${level}: ${message}`;
+  })
+);
 
-const logger = pino({
-  transport: {
-    target: "pino/file",
-    options: {
-      destination: path.join(logDirectory, "server.log"),
-    },
-  },
-  timestamp: pino.stdTimeFunctions.isoTime,
+// Create a Winston logger
+const logger = createLogger({
+  level: "info",
+  format: combine(colorize(), timestamp(), json()),
+  transports: [
+    new transports.Console({
+      format: consoleLogFormat,
+    }),
+    new transports.File({ filename: "./logs/app.log" }),
+  ],
 });
 
-export { logger };
+export {logger};

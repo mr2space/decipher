@@ -11,7 +11,6 @@ const generateAccessAndRefereshTokens = async (userId) => {
         const user = await User.findById(userId);
         const accessToken = user.generateAccessToken();
         const refreshToken = user.generateRefreshToken();
-
         user.refreshToken = refreshToken;
         await user.save({ validateBeforeSave: false });
 
@@ -90,28 +89,6 @@ const registerUser = asyncHandler(async (req, res) => {
     new ApiResponse(200, createdUser, "User registered Successfully")
   )
 });
-
-  // await user.save();
-
-  // const token = jwt.sign({ id: user._id, username: user.username, email: user.email }, process.env.JWT_SECRET, {
-  //   expiresIn: "1h",
-  // });
-
-  // const newToken = new Token({
-  //   userId: user._id,
-  //   username: user.username,
-  //   token,
-  // });
-  // await newToken.save();
-
-  // logger.info(`User registered: ${username}`);
-  // res.status(201).json({
-  //   status: "success",
-  //   message: "User registration successful",
-  //   token,
-  //   data: { username, fullname, email, phone, geolocation },
-  // });
-// };
 
 const loginUser = asyncHandler(async (req, res) => {
     const { email, username, password } = req.body;
@@ -216,17 +193,17 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
             secure: true,
         };
 
-        const { accessToken, newRefreshToken } =
+        const { accessToken, refreshToken } =
             await generateAccessAndRefereshTokens(user._id);
 
         return res
             .status(200)
             .cookie("accessToken", accessToken, options)
-            .cookie("refreshToken", newRefreshToken, options)
+            .cookie("refreshToken", refreshToken, options)
             .json(
                 new ApiResponse(
                     200,
-                    { accessToken, refreshToken: newRefreshToken },
+                    { accessToken, refreshToken: refreshToken },
                     "Access token refreshed"
                 )
             );

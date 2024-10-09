@@ -17,6 +17,7 @@
     "@aws-sdk/client-s3": "^3.665.0",
     "@google/generative-ai": "^0.19.0",
     "aws-sdk": "^2.1691.0",
+    "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "buffer-crc32": "^1.0.0",

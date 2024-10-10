@@ -341,6 +341,4 @@ packages/react-devtools-inline/dist
 packages/react-devtools-shell/dist
 packages/react-devtools-timeline/dist
 
-
-**/__test__/*
-__test__
+ **/__test__/*

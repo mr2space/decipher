@@ -6,9 +6,10 @@ import { BrowserRouter } from "react-router-dom";
 const App = () => {
     return (
         <>
+            
             <BrowserRouter>
                 <Routes>
-                    <Route path="" element={<pages.ComponentsPage />} />
+                    <Route path="" element={<pages.Home />} />
                 </Routes>
             </BrowserRouter>
         </>

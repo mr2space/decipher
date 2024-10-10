@@ -22,6 +22,10 @@ export default {
                 darkgray: "#3C3C3C",
                 slategray: "#707070",
             },
+            fontFamily: {
+              "daysone": ['Days One', 'sans-serif'],
+              "poppins":['Poppins', 'sans-serif']
+          }
         },
     },
     plugins: [],

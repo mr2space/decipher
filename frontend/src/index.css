@@ -5,5 +5,5 @@
 @tailwind utilities;
 
 body{
-    @apply bg-whitegray w-screen overflow-x-auto;
+    @apply bg-whitegray w-screen scroll-smooth;
 }

@@ -11,8 +11,8 @@ const Home = () => {
             <section className="w-full h-screen overflow-x-hidden flex flex-col gap-10 justify-center items-center z-10 font-poppins">
                 <div className="wrapper mt-[80px] h-full w-full">
                     <div className="flex flex-row items-center justify-between w-full px-24 h-full ">
-                        <div className="left__box flex-1 h-full">
-                            <div className="heading__content mt-40">
+                        <div className="left__box w-3/4 h-full flex flex-col justify-evenly items-start">
+                            <div className="heading__content flex flex-col gap-5">
                                 <div className="title_hero font-semibold font-poppins text-[80px] ">
                                     Indulge In Herbal Technology
                                     <img
@@ -21,12 +21,11 @@ const Home = () => {
                                         alt="plant vector"
                                     />
                                 </div>
-                                <div className="subtitle_hero font-poppins text-[26px] pl-2 mt-4">
+                                <div className="subtitle_hero font-poppins text-[26px] pl-2">
                                     We believe future of Aurveda is here
                                 </div>
-                            </div>
 
-                            <div className="button__group flex flex-row justify-between px-2 w-[425px] mt-[50px]">
+                                <div className="button__group flex flex-row justify-between px-2 w-[425px]">
                                 <components.GreenButton>
                                     Sign up!
                                 </components.GreenButton>
@@ -35,8 +34,11 @@ const Home = () => {
                                     Docs
                                 </components.TransparentButton>
                             </div>
+                            </div>
 
-                            <div className="team__box flex justify-center items-center flex-row w-[400px]  mt-16">
+                            
+
+                            <div className="team__box flex justify-center items-center flex-row w-[400px]  transform translate-y-8">
                                 <div className="profile_img_box">
                                     <components.TeamCircle
                                         imageUrl={Images.plant1}
@@ -65,7 +67,7 @@ const Home = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="wrapper relative">
+                        <div className="wrapper relative w-1/4 h-full flex justify-center items-center ">
                             <components.HeroImage />
                             <div className="hero__logo absolute bottom-[20%] left-[-75px] bg-secondary-500 w-[150px] h-[150px] rounded-full"></div>
                             <div className="absolute top-[10%] left-[-10%]">

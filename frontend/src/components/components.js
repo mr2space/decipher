@@ -6,7 +6,8 @@ import Alink from "./Alink/Alink";
 import LogoText from "./Navbar/LogoText";
 import HeroImage from "./Images/HeroImage";
 import TeamCircle from "./Teams/profileCircle";
-
+import HomeSearch from "./Search/HomeSearch";
+import YellowButton from "./Button/YellowButton";
 
 export default {
     GreenButton,
@@ -16,5 +17,7 @@ export default {
     Alink,
     LogoText,
     HeroImage,
-    TeamCircle
+    TeamCircle,
+    HomeSearch,
+    YellowButton
 }

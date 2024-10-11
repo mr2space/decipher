@@ -4,7 +4,7 @@ const TransparentButton = ({handleClick, children}) => {
     return (
         <div
             onClick={handleClick}
-            className="px-10 py-2 rounded-full bg-transparent border border-black  text-black cursor-pointer text-[26px] hover:bg-black hover:text-white transition-all"
+            className="px-10 py-2 rounded-full bg-transparent border border-black  text-black cursor-pointer text-xl hover:bg-black hover:text-white transition-all"
         >
             {children}
         </div>

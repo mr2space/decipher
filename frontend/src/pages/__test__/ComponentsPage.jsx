@@ -6,7 +6,10 @@ export const ComponentsPage = () => {
     return (
         <section className="w-full h-screen bg-whitegray flex flex-col gap-10 justify-center items-center">
                 <components.Navbar />
-                <components.HeroImage />
+                <div className="flex justify-center items-center">
+                        <components.HomeSearch />
+                </div>
+                {/* <components.HeroImage /> */}
         </section>
     );
 };

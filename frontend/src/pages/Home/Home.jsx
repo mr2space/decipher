@@ -1,13 +1,15 @@
 import React from "react";
 import { components } from "../../components";
 import { Images, Vectors } from "../../assets";
+import { FaCanadianMapleLeaf } from "react-icons/fa6";
+
 
 const Home = () => {
     return (
         <>
             <components.Navbar />
-            <section className="w-full h-screen overflow-x-hidden flex flex-col gap-10 justify-center items-center z-10">
-                <div className="wraaper mt-[80px] h-full w-full">
+            <section className="w-full h-screen overflow-x-hidden flex flex-col gap-10 justify-center items-center z-10 font-poppins">
+                <div className="wrapper mt-[80px] h-full w-full">
                     <div className="flex flex-row items-center justify-between w-full px-24 h-full ">
                         <div className="left__box flex-1 h-full">
                             <div className="heading__content mt-40">
@@ -26,12 +28,41 @@ const Home = () => {
 
                             <div className="button__group flex flex-row justify-between px-2 w-[425px] mt-[50px]">
                                 <components.GreenButton>
-                                    <p>Sign Up</p>
+                                    Sign up!
                                 </components.GreenButton>
 
                                 <components.TransparentButton>
                                     Docs
                                 </components.TransparentButton>
+                            </div>
+
+                            <div className="team__box flex justify-center items-center flex-row w-[400px]  mt-16">
+                                <div className="profile_img_box">
+                                    <components.TeamCircle
+                                        imageUrl={Images.plant1}
+                                    />
+                                    <components.TeamCircle
+                                        imageUrl={Images.plant1}
+                                        left={"-40%"}
+                                    />
+                                    <components.TeamCircle
+                                        imageUrl={Images.plant1}
+                                        left={"-80%"}
+                                    />
+                                </div>
+                                <div className="content_box flex gap-[1rem] transform translate-x-[-2rem]">
+                                    <div className="wrapper text-[3.3rem] text-primary-500">
+                                    <FaCanadianMapleLeaf />
+                                    </div>
+                                    <div className="team_info">
+                                        <div className="subheading font-normal text-sm">
+                                            Our Contributor
+                                        </div>
+                                        <div className="team_name font-medium text-lg">
+                                            Team Initiate
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className="wrapper relative">

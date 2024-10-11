@@ -5,6 +5,7 @@ import Navbar from "./Navbar/Navbar";
 import Alink from "./Alink/Alink";
 import LogoText from "./Navbar/LogoText";
 import HeroImage from "./Images/HeroImage";
+import TeamCircle from "./Teams/profileCircle";
 
 
 export default {
@@ -14,5 +15,6 @@ export default {
     Navbar,
     Alink,
     LogoText,
-    HeroImage
+    HeroImage,
+    TeamCircle
 }

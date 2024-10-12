@@ -2,12 +2,14 @@ import React from 'react'
 import Alink from '../Alink/Alink'
 import SignUpButton from '../Button/SignUpButton'
 import { FaLeaf } from "react-icons/fa";
+import { Link } from 'react-router-dom';
+
 
 const Links = () => {
     const data = [
-        {url : "", text:"Home"},
+        {url : "/", text:"Home"},
         {url : "/about", text:"About"},
-        {url: "/search", text:"Search"}
+        {url: "/secure", text:"Search"}
     ]
   return (
     <div className='font-medium flex gap-10 items-center'
@@ -19,7 +21,7 @@ const Links = () => {
         }
 
         <SignUpButton>
-        <FaLeaf /> Join Us!
+        <Link to="/auth/login" className='flex flex-row gap-2 items-center justify-center'> <FaLeaf /> Join Us! </Link>
         </SignUpButton>
     </div>
   )

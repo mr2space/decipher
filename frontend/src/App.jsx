@@ -1,21 +1,27 @@
 import React from "react";
 import { pages } from "./pages";
+import { components } from "./components";
 import { Routes, Route } from "react-router-dom";
-import { BrowserRouter } from "react-router-dom";
-import Home from "./pages/Home/Home";
-import RequiredAuth from "./components/Auth/RequiredAuth";
-
+import { URL } from "./data";
 const App = () => {
     return (
         <>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/auth/login" element={<pages.ComponentsPage />} />
-                    <Route element={<RequiredAuth />}>
-                        <Route path="" element={<Home />} />
+            <Routes>
+                {/* public routes */}
+                <Route path="/" element={<pages.Home />} />
+                <Route
+                    path={URL.LOGIN_URL}
+                    element={<pages.ComponentsPage />}
+                />
+                <Route element={<components.PersistantLogin />}>
+                    <Route element={<components.RequiredAuth />}>
+                        <Route
+                            path={"/secure"}
+                            element={<pages.SecurePage />}
+                        />
                     </Route>
-                </Routes>
-            </BrowserRouter>
+                </Route>
+            </Routes>
         </>
     );
 };

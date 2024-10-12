@@ -10,6 +10,8 @@ import HomeSearch from "./Search/HomeSearch";
 import YellowButton from "./Button/YellowButton";
 import Login from "./Auth/Login";
 import RequiredAuth from "./Auth/RequiredAuth";
+import PersistantLogin from "./Auth/PersistantLogin"
+
 
 export default {
     GreenButton,
@@ -23,5 +25,6 @@ export default {
     HomeSearch,
     YellowButton,
     Login,
-    RequiredAuth
+    RequiredAuth,
+    PersistantLogin
 }

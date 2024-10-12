@@ -16,12 +16,16 @@ import {
     googleStrategy,
 } from "./src/Utils/pasportStrategy.js";
 import { morganLogger } from "./src/middleware/morgan.middleware.js";
+import cors from "cors";
 
 configDotenv();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-
+app.use(cors({
+    origin:process.env.CORS_ORIGIN,
+    credentials:true,
+}))
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());

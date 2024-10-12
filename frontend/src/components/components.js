@@ -8,6 +8,8 @@ import HeroImage from "./Images/HeroImage";
 import TeamCircle from "./Teams/profileCircle";
 import HomeSearch from "./Search/HomeSearch";
 import YellowButton from "./Button/YellowButton";
+import Login from "./Auth/Login";
+import RequiredAuth from "./Auth/RequiredAuth";
 
 export default {
     GreenButton,
@@ -19,5 +21,7 @@ export default {
     HeroImage,
     TeamCircle,
     HomeSearch,
-    YellowButton
+    YellowButton,
+    Login,
+    RequiredAuth
 }

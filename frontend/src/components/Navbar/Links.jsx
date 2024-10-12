@@ -14,7 +14,7 @@ const Links = () => {
     >
         {
             data.map(({url, text})=>(
-                <Alink url={url} text={text} />
+                <Alink url={url} text={text} key={text} />
             ))
         }
 

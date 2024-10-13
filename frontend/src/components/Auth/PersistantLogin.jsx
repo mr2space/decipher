@@ -1,13 +1,14 @@
 import React, {useState, useEffect} from 'react'
 import { Outlet } from 'react-router-dom'
 import useRefreshToken from '../../hooks/useRefreshToken'
-import useAuth from '../../hooks/useAuth'
 
+import { useSelector, useDispatch } from 'react-redux'
+import { selectCurrentUser } from "../../utils/authSlice";
 
 const PersistantLogin = () => {
     const [isLoading, setIsLoading] = useState(true);
     const refresh = useRefreshToken();
-    const {auth} = useAuth();
+    const user = useSelector(selectCurrentUser)
 
     useEffect(()=>{
         let isMounted = true;
@@ -20,7 +21,7 @@ const PersistantLogin = () => {
                 isMounted && setIsLoading(false);
             }
         }
-        !auth.accessToken ? verifyRefreshToken() : setIsLoading(false);
+        !user ? verifyRefreshToken() : setIsLoading(false);
         return () => isMounted = false;
     }, [])
 
@@ -28,7 +29,7 @@ const PersistantLogin = () => {
     <>
         {
             isLoading?
-                <p> Loading </p>:
+                <p> Loading </p>: //TODO: UPDATE TO BETTER LOADER
                 <Outlet/>
         }
     </>

@@ -2,15 +2,12 @@ import React from "react";
 import { MdClose } from "react-icons/md";
 import { useState, useEffect } from "react";
 import axios from "../../utils/axios";
-import useAuth from "../../hooks/useAuth";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { URL } from "../../data";
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from "react-redux";
 import { setCredentials } from "../../utils/authSlice";
 
-
 const Login = () => {
-    const { auth, setAuth } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch();
@@ -21,7 +18,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!username && !password) {
-            return ;
+            return;
         }
         try {
             const response = await axios.post(
@@ -35,13 +32,16 @@ const Login = () => {
                     withCredentials: true,
                 }
             );
-            const accessToken = await response?.data?.data?.accessToken;
-            const refreshToken = await response?.data?.data?.refreshToken;
-            const user = await response?.data?.data?.user;
-            console.log(accessToken, refreshToken, user);
-            response.data = response.data.data
-            dispatch(setCredentials({accessToken : response.data.accessToken, refreshToken : response.data.refreshToken, user : response.data?.user, credit : response.data?.user?.credit})) 
-            setAuth({ accessToken, refreshToken, user });            
+
+            response.data = response.data.data;
+            dispatch(
+                setCredentials({
+                    accessToken: response.data.accessToken,
+                    refreshToken: response.data.refreshToken,
+                    user: response.data?.user,
+                    credit: response.data?.user?.credit,
+                })
+            );
             navigate(from, { replace: true });
         } catch (error) {
             console.log(error);

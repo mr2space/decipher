@@ -1,18 +1,23 @@
 import { axiosPrivate } from "../utils/axios";
 import { useEffect } from "react";
 import useRefreshToken from "./useRefreshToken";
-import useAuth from "./useAuth";
+
+import { useSelector } from "react-redux";
+import {
+    selectCurrentAccessToken,
+    selectCurrentUser,
+} from "../utils/authSlice";
 
 const useAxiosPrivate = () => {
     const refresh = useRefreshToken();
-    const { auth } = useAuth();
+    const auth = useSelector(selectCurrentUser);
+    const accessToken = useSelector(selectCurrentAccessToken);
+
     useEffect(() => {
         const requestIntercept = axiosPrivate.interceptors.request.use(
             (config) => {
                 if (!config.headers["Authorization"]) {
-                    config.headers[
-                        "Authorization"
-                    ] = `Bearer ${auth?.accessToken}`;
+                    config.headers["Authorization"] = `Bearer ${accessToken}`;
                 }
 
                 return config;
@@ -43,5 +48,7 @@ const useAxiosPrivate = () => {
     }, [auth, refresh]);
     return axiosPrivate;
 };
+
+//?? Edited area check for bugs
 
 export default useAxiosPrivate;

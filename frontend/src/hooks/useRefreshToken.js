@@ -10,9 +10,7 @@ const useRefreshToken = () => {
         });
         response.data = await response.data.data;
         
-        await setAuth((prev)=>{
-            console.log(response.data , prev);
-            
+        await setAuth((prev)=>{            
             return {...prev, accessToken : response.data.accessToken, refreshToken : response.data.refreshToken, user : response.data.user}
         });
         return response.data.accessToken;

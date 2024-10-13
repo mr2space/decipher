@@ -6,22 +6,24 @@ import { URL } from "./data";
 const App = () => {
     return (
         <>
-            <Routes>
-                {/* public routes */}
-                <Route path="/" element={<pages.Home />} />
-                <Route
-                    path={URL.LOGIN_URL}
-                    element={<pages.ComponentsPage />}
-                />
-                <Route element={<components.PersistantLogin />}>
-                    <Route element={<components.RequiredAuth />}>
-                        <Route
-                            path={"/secure"}
-                            element={<pages.SecurePage />}
-                        />
+            <section className="w-full h-screen bg-whitegray overflow-x-hidden flex flex-col gap-10 justify-center items-center">
+                <components.Navbar />
+                <Routes>
+                    {/* public routes */}
+                    <Route path="/text" element={<pages.ComponentsPage />} />
+                    <Route path={URL.LOGIN_URL} element={<pages.Login />} />
+                    <Route element={<components.PersistantLogin />}>
+                    <Route path="/" element={<pages.Home />} />
+                        <Route element={<components.RequiredAuth />}>
+                            <Route path="/search" element={<pages.Search />} />
+                            <Route
+                                path={"/secure"}
+                                element={<pages.SecurePage />}
+                            />
+                        </Route>
                     </Route>
-                </Route>
-            </Routes>
+                </Routes>
+            </section>
         </>
     );
 };

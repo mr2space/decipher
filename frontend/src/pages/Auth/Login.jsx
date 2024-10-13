@@ -5,11 +5,15 @@ import axios from "../../utils/axios";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { URL } from "../../data";
+import { useSelector, useDispatch } from 'react-redux'
+import { setCredentials } from "../../utils/authSlice";
+
 
 const Login = () => {
     const { auth, setAuth } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
+    const dispatch = useDispatch();
     const from = location.state?.from?.pathname || "/";
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -35,7 +39,8 @@ const Login = () => {
             const refreshToken = await response?.data?.data?.refreshToken;
             const user = await response?.data?.data?.user;
             console.log(accessToken, refreshToken, user);
-            
+            response.data = response.data.data
+            dispatch(setCredentials({accessToken : response.data.accessToken, refreshToken : response.data.refreshToken, user : response.data?.user, credit : response.data?.user?.credit})) 
             setAuth({ accessToken, refreshToken, user });            
             navigate(from, { replace: true });
         } catch (error) {

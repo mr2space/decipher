@@ -19,7 +19,7 @@ const SecurePage = () => {
         const getLocation = async () => {
             try {
                 const response = await axiosprivate.get("/dev/all",{
-                    signal: controller.signal,
+                    // signal: controller.signal,
                 });
                 // response.data = response.data.data;
                 if (isMounted) {
@@ -46,7 +46,7 @@ const SecurePage = () => {
 
         return () => {
             isMounted = false;
-            controller.abort();
+            // controller.abort();
         };
     }, []);
 

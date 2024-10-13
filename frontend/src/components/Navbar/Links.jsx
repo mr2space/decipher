@@ -1,12 +1,21 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Alink from "../Alink/Alink";
 import SignUpButton from "../Button/SignUpButton";
 import { FaLeaf } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import { useSelector, useDispatch } from 'react-redux'
+import { selectCurrentCredit } from "../../utils/authSlice";
 
 const Links = () => {
     const { auth } = useAuth();
+    let credit = useSelector(selectCurrentCredit)
+    const [localCount, setLocalCount] = useState(credit);
+    console.log(credit);
+    useEffect(() => {
+        // Whenever the Redux state changes, update the local state
+        setLocalCount(credit);
+      }, [credit]);
     const data = [
         { url: "/", text: "Home" },
         { url: "/about", text: "About" },
@@ -17,7 +26,7 @@ const Links = () => {
             {data.map(({ url, text }) => (
                 <Alink url={url} text={text} key={text} />
             ))}
-            {!auth.user ? (
+            {!credit ? (
                 <SignUpButton>
                     <Link
                         to="/auth/login"
@@ -33,7 +42,7 @@ const Links = () => {
                         to="/"
                         className="flex flex-row gap-2 items-center justify-center"
                     >
-                    <FaLeaf className="text-primary-500 group-hover:text-whitegray"  /> {auth?.user?.credit} {" "} C
+                    <FaLeaf className="text-primary-500 group-hover:text-whitegray"  /> {credit} {" "} C
                     </Link>
                     </SignUpButton>
                 </>

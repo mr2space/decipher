@@ -13,9 +13,8 @@ const App = () => {
                     <Route path="/text" element={<pages.ComponentsPage />} />
                     <Route path={URL.LOGIN_URL} element={<pages.Login />} />
                     <Route element={<components.PersistantLogin />}>
-                    <Route path="/" element={<pages.Home />} />
+                        <Route path="/" element={<pages.Home />} />
                         <Route element={<components.RequiredAuth />}>
-                            <Route path="/search" element={<pages.Search />} />
                             <Route
                                 path={"/secure"}
                                 element={<pages.SecurePage />}

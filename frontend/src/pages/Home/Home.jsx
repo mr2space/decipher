@@ -2,9 +2,12 @@ import React from "react";
 import { components } from "../../components";
 import { Images, Vectors } from "../../assets";
 import { FaCanadianMapleLeaf } from "react-icons/fa6";
-
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../utils/authSlice";
+import HomeSearch from "../../components/Search/HomeSearch";
 
 const Home = () => {
+    const user = useSelector(selectCurrentUser);
     return (
         <>
             <components.Navbar />
@@ -26,13 +29,13 @@ const Home = () => {
                                 </div>
 
                                 <div className="button__group flex flex-row justify-between px-2 w-[425px]">
-                                <components.GreenButton>
+                                {(user)?(<HomeSearch />):(<><components.GreenButton>
                                     Sign up!
                                 </components.GreenButton>
 
                                 <components.TransparentButton>
                                     Docs
-                                </components.TransparentButton>
+                                </components.TransparentButton></>)}
                             </div>
                             </div>
 

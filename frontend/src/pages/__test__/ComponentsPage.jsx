@@ -7,7 +7,7 @@ export const ComponentsPage = () => {
         <section className="w-full h-screen bg-whitegray overflow-x-hidden flex flex-col gap-10 justify-center items-center">
                 <components.Navbar />
                 <div className="flex justify-center items-center">
-                        <components.Login />
+                        <components.HomeSearch />
                 </div>
         </section>
     );

@@ -2,9 +2,12 @@ import React from "react";
 import { components } from "../../components";
 import { Images, Vectors } from "../../assets";
 import { FaCanadianMapleLeaf } from "react-icons/fa6";
-
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../utils/authSlice";
+import HomeSearch from "../../components/Search/HomeSearch";
 
 const Home = () => {
+    const user = useSelector(selectCurrentUser);
     return (
         <>
             <components.Navbar />
@@ -25,14 +28,14 @@ const Home = () => {
                                     We believe future of Aurveda is here
                                 </div>
 
-                                <div className="button__group flex flex-row justify-between px-2 w-[425px]">
-                                <components.GreenButton>
+                                <div className="button__group flex flex-row justify-between mt-5 w-[425px]">
+                                {(user)?(<HomeSearch />):(<><components.GreenButton>
                                     Sign up!
                                 </components.GreenButton>
 
                                 <components.TransparentButton>
                                     Docs
-                                </components.TransparentButton>
+                                </components.TransparentButton></>)}
                             </div>
                             </div>
 
@@ -82,6 +85,7 @@ const Home = () => {
                 </div>
                 <div className="Bg_yellow bg-secondary-500 rotate-45 absolute top-[16%] left-[-3%] transf w-52 h-32 blur-[75px] -z-10"></div>
                 <div className="Bg_yellow bg-secondary-500 rotate-45 absolute top-[28%] left-[-3%] transf w-56 h-32 blur-[85px] -z-10"></div>
+                <components.LoadingTip />
             </section>
         </>
     );

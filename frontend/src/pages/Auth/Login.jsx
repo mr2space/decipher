@@ -2,14 +2,15 @@ import React from "react";
 import { MdClose } from "react-icons/md";
 import { useState, useEffect } from "react";
 import axios from "../../utils/axios";
-import useAuth from "../../hooks/useAuth";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { URL } from "../../data";
+import { useSelector, useDispatch } from "react-redux";
+import { setCredentials } from "../../utils/authSlice";
 
 const Login = () => {
-    const { auth, setAuth } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
+    const dispatch = useDispatch();
     const from = location.state?.from?.pathname || "/";
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -17,7 +18,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!username && !password) {
-            return ;
+            return;
         }
         try {
             const response = await axios.post(
@@ -31,23 +32,27 @@ const Login = () => {
                     withCredentials: true,
                 }
             );
-            const accessToken = await response?.data?.data?.accessToken;
-            const refreshToken = await response?.data?.data?.refreshToken;
-            const user = await response?.data?.data?.user;
-            console.log(accessToken, refreshToken, user);
-            
-            setAuth({ accessToken, refreshToken, user });            
+
+            response.data = response.data.data;
+            dispatch(
+                setCredentials({
+                    accessToken: response.data.accessToken,
+                    refreshToken: response.data.refreshToken,
+                    user: response.data?.user,
+                    credit: response.data?.user?.credit,
+                })
+            );
             navigate(from, { replace: true });
         } catch (error) {
             console.log(error);
         }
     };
     return (
-        <div className="wrapper w-screen h-screen z-10 flex justify-center items-center relative">
+        <div className="wrapper w-screen h-screen z-10 flex justify-center items-center relative bg-url bg-gradient-to-r from-cyan-500 to-blue-500">
             <div className="close text-4xl bg-gray-500 hover:bg-gray-700 text-whitegray relative bottom-[13%] left-[calc(25%+38px)] font-poppins cursor-pointer">
                 <MdClose />
             </div>
-            <div className="form__box w-1/4 py-8 px-5 flex flex-col gap-12 shadow-md shadow-gray-400">
+            <div className="form__box w-1/4 py-8 bg-whitegray rounded-lg px-5 flex flex-col gap-12 shadow-md shadow-gray-800">
                 <div className="heading text-4xl text-center">Sign in</div>
                 <div className="form">
                     <form

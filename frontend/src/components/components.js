@@ -8,6 +8,7 @@ import HomeSearch from "./Search/HomeSearch";
 import YellowButton from "./Button/YellowButton";
 import RequiredAuth from "./Auth/RequiredAuth";
 import PersistantLogin from "./Auth/PersistantLogin"
+import LoadingTip from "./Navbar/LoadingTip";
 
 
 export default {
@@ -20,5 +21,6 @@ export default {
     HomeSearch,
     YellowButton,
     RequiredAuth,
-    PersistantLogin
+    PersistantLogin,
+    LoadingTip
 }

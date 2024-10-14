@@ -1,13 +1,21 @@
-import React  from "react";
+import React from "react";
 import Components from "../components";
 import { MdOutlineFileUpload } from "react-icons/md";
 import { useEffect, useState, useRef } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
 
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { selectCurrentData, setResponse } from "../../utils/speciesSlice";
+import textSearchSlice from "../../utils/speciesSlice";
+import { URL } from "../../data";
+
 const HomeSearch = () => {
     const url = ["/search", "/photo_upload"];
     const uploadRef = useRef(null);
+
+    const dispatch = useDispatch();
 
     const axiosPrivate = useAxiosPrivate();
     const location = useLocation();
@@ -27,51 +35,51 @@ const HomeSearch = () => {
     };
 
     const handleTextSubmit = async () => {
-        try {
+        const requestAndUpdate = async () => {
             const response = await axiosPrivate.post(
-                "/search",
+                URL.SPECIES_SEARCH_URL,
                 { species: value },
                 {
                     withCredentials: true,
                 }
             );
             // navigate()
-            //TODO: work to navigate
-            console.log(response.data);
+            dispatch(setResponse({ species: value, data: response.data.data }));
+            setValue("");
+        };
+        try {
+            requestAndUpdate();
+            navigate(URL.SPECIES_SEARCH_URL, { from: location, replace: true });
         } catch (error) {
             console.log(error);
         }
     };
 
-    const handleUpload = async ()=>{
+    const handleUpload = async () => {
         try {
-            const ele = uploadRef.current
+            const ele = uploadRef.current;
             const file = ele.files[0];
-            if (file){
+            if (file) {
                 const formData = new FormData();
                 formData.append("photo", file);
                 const response = await axiosPrivate.post("/upload", formData, {
-                    headers:{
-                        'Content-Type': 'multipart/form-data'
-                    }
-                })
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
                 console.log(response);
-                
             }
         } catch (error) {
             console.log(error);
-            
         }
-    }
-    const handleButtonUploadClick = ()=>{
-        const ele = uploadRef.current
-        ele.click();        
-        ele.addEventListener('change', async ()=>{
-            handleUpload()
-        })
-    }
-
-
+    };
+    const handleButtonUploadClick = () => {
+        const ele = uploadRef.current;
+        ele.click();
+        ele.addEventListener("change", async () => {
+            handleUpload();
+        });
+    };
 
     return (
         <div className="relative w-full">
@@ -97,9 +105,17 @@ const HomeSearch = () => {
                 ) : (
                     <>
                         <form action="" method="post">
-                            <input type="file" name="photo" id="photo" className=" hidden" ref={uploadRef} />
-                            <Components.YellowButton handleClick={handleButtonUploadClick}>
-                                    Upload
+                            <input
+                                type="file"
+                                name="photo"
+                                id="photo"
+                                className=" hidden"
+                                ref={uploadRef}
+                            />
+                            <Components.YellowButton
+                                handleClick={handleButtonUploadClick}
+                            >
+                                Upload
                             </Components.YellowButton>
                         </form>
                     </>

@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Outlet } from 'react-router-dom'
+import {TailSpin} from "react-loader-spinner";
+
 import useRefreshToken from '../../hooks/useRefreshToken'
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -29,7 +31,16 @@ const PersistantLogin = () => {
     <>
         {
             isLoading?
-                <p> Loading </p>: //TODO: UPDATE TO BETTER LOADER
+            <TailSpin
+            visible={true}
+            height="80"
+            width="80"
+            color="#4fa94d"
+            ariaLabel="tail-spin-loading"
+            radius="1"
+            wrapperStyle={{}}
+            wrapperClass=""
+            />: //TODO: UPDATE TO BETTER LOADER
                 <Outlet/>
         }
     </>

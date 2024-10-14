@@ -5,6 +5,7 @@ import SignUpButton from "../Button/SignUpButton";
 
 import { useSelector, useDispatch } from "react-redux";
 import { selectCurrentCredit } from "../../utils/authSlice";
+import { useRef } from "react";
 
 const Alink = ({ text, url }) => {
     return (
@@ -17,11 +18,6 @@ const Alink = ({ text, url }) => {
 const Links = () => {
     let credit = useSelector(selectCurrentCredit);
     const [localCount, setLocalCount] = useState(credit);
-    console.log(credit);
-    useEffect(() => {
-        // Whenever the Redux state changes, update the local state
-        setLocalCount(credit);
-    }, [credit]);
     const data = [
         { url: "/", text: "Home" },
         { url: "/about", text: "About" },
@@ -67,8 +63,24 @@ const LogoText = ({ text }) => {
 };
 
 const Navbar = () => {
+    const navbarRef = useRef(null);
+    const [transparent, setTransparent] = useState(true)
+    //TODO: ADD SCROLL NAVBAR COLOR CHANGE
+    useEffect(()=>{
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY;
+            console.log(scrollPosition)
+            if (scrollPosition > 1) {
+                setTransparent(false);
+            } else {
+                setTransparent(true);
+            }
+        });
+    }, [])
+
+
     return (
-        <div className="absolute top-0 left-0 w-screen flex gap-5 items-center justify-between px-24 py-6 z-50 bg-whitegray">
+        <div className={`${(transparent)? "bg-transparent": "bg-whitegray"} fixed top-0 left-0 w-screen flex gap-5 items-center justify-between px-24 py-6 z-50`} ref={navbarRef}>
             <LogoText text="sanjeevani" />
             <Links />
         </div>

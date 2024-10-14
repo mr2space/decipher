@@ -15,6 +15,7 @@ const App = () => {
                     <Route element={<components.PersistantLogin />}>
                         <Route path="/" element={<pages.Home />} />
                         <Route element={<components.RequiredAuth />}>
+                        <Route path={URL.SPECIES_SEARCH_URL}  element={<pages.Search />}/>
                             <Route
                                 path={"/secure"}
                                 element={<pages.SecurePage />}

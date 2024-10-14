@@ -10,9 +10,16 @@ import { motion } from "framer-motion";
 
 const AppSection = () => {
     return (
-        <section className="flex justify-center items-center relative h-screen">
+        <section className="flex justify-center items-center relative h-screen" id="app-download">
             <div className="flex__box flex flex-row items-center justify-between w-full h-[calc(100%-80px)] px-24">
-                <div className="wrapper w-2/10 h-full flex justify-center items-center relative">
+                <motion.div className="wrapper w-2/10 h-full flex justify-center items-center relative" initial={{ opacity: 0, y: "10%" }}
+                                    whileInView={{ opacity: 1, y: "0" }}
+                                    viewport={{ once: true }}
+                                    transition={{
+                                        ease: "easeInOut",
+                                        duration: 1,
+                                        delay: 0.2,
+                                    }}>
                     <div className="image_box w-full h-4/5 rounded-b-full rounded-tr-[70em] rounded-tl-full bg-primary-100 overflow-hidden">
                         <img
                             src={Images.plant2}
@@ -35,10 +42,20 @@ const AppSection = () => {
                             <GiCurledLeaf />
                         </motion.div>
                     </div>
-                </div>
+                </motion.div>
                 <div className="wrapper w-3/4 h-4/5 pl-24 py-16 flex flex-col justify-start gap-32">
                     <div className="wrapper">
-                        <motion.div className="title text-[4rem] font-semibold font-poppins">
+                        <motion.div className="title text-[4rem] font-semibold font-poppins"
+                            initial={{ opacity: 0, y: "10%" }}
+                            whileInView={{ opacity: 1, y: "0" }}
+                            viewport={{ once: true }}
+                            transition={{
+                                ease: "easeInOut",
+                                duration: 1,
+                                delay: 0.4,
+                            }}
+                        
+                        >
                             One App for All herbs <br /> knowledge{" "}
                             <div className="  inline-block translate-y-5 text-primary-400 text-[5rem] cursor-grab">
                                 <motion.div
@@ -54,12 +71,28 @@ const AppSection = () => {
                                 </motion.div>
                             </div>
                         </motion.div>
-                        <div className="subheading text-2xl mt-4">
+                        <motion.div className="subheading text-2xl mt-4" initial={{ opacity: 0, y: "10%" }}
+                            whileInView={{ opacity: 1, y: "0" }}
+                            viewport={{ once: true }}
+                            transition={{
+                                ease: "easeInOut",
+                                duration: 1,
+                                delay: 0.6,
+                            }}>
                             Download our App on Android
-                        </div>
+                        </motion.div>
                     </div>
 
-                    <div className="wrapper flex flex-row w-full gap-48">
+                    <motion.div className="wrapper flex flex-row w-full gap-48"
+                        initial={{ opacity: 0, y: "10%" }}
+                        whileInView={{ opacity: 1, y: "0" }}
+                        viewport={{ once: true }}
+                        transition={{
+                            ease: "easeInOut",
+                            duration: 1,
+                            delay: 0.7,
+                        }}
+                    >
                         <components.YellowButton>
                             Download <FaDownload />
                         </components.YellowButton>
@@ -67,7 +100,7 @@ const AppSection = () => {
                         <components.TransparentButton>
                             Know More
                         </components.TransparentButton>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
 

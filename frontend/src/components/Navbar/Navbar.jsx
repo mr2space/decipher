@@ -20,7 +20,7 @@ const Links = () => {
     const [localCount, setLocalCount] = useState(credit);
     const data = [
         { url: "/", text: "Home" },
-        { url: "/about", text: "About" },
+        { url: "/#app-download", text: "App" },
         { url: "/secure", text: "Search" },
     ];
     return (
@@ -79,7 +79,7 @@ const Navbar = () => {
 
 
     return (
-        <div className={`${(transparent)? "bg-transparent ": "bg-whitegray shadow-lg"} fixed top-0 left-0 w-screen flex gap-5 items-center justify-between px-24 py-6 z-50`} ref={navbarRef}>
+        <div className={`${(transparent)? "bg-transparent ": "bg-whitegray shadow-lg"} fixed top-0 left-0 w-screen flex gap-5 items-center justify-between px-24 py-3 z-50`} ref={navbarRef}>
             <LogoText text="sanjeevani" />
             <Links />
         </div>

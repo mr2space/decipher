@@ -12,3 +12,26 @@ body{
 #root{
     @apply m-0 p-0 font-poppins;
 }
+
+.card_detail_box {
+    background: rgb(2, 0, 36);
+    background: -moz-linear-gradient(
+        180deg,
+        rgba(2, 0, 36, 0) 0%,
+        rgba(13, 13, 13, 0.7792366946778712) 61%,
+        rgba(13, 13, 13, 0.9332983193277311) 94%
+    );
+    background: -webkit-linear-gradient(
+        180deg,
+        rgba(2, 0, 36, 0) 0%,
+        rgba(13, 13, 13, 0.7792366946778712) 61%,
+        rgba(13, 13, 13, 0.9332983193277311) 94%
+    );
+    background: linear-gradient(
+        180deg,
+        rgba(2, 0, 36, 0) 0%,
+        rgba(13, 13, 13, 0.7792366946778712) 61%,
+        rgba(13, 13, 13, 0.9332983193277311) 94%
+    );
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024",endColorstr="#0d0d0d",GradientType=1);
+}

@@ -69,7 +69,6 @@ const Navbar = () => {
     useEffect(()=>{
         window.addEventListener('scroll', () => {
             const scrollPosition = window.scrollY;
-            console.log(scrollPosition)
             if (scrollPosition > 1) {
                 setTransparent(false);
             } else {
@@ -80,7 +79,7 @@ const Navbar = () => {
 
 
     return (
-        <div className={`${(transparent)? "bg-transparent": "bg-whitegray"} fixed top-0 left-0 w-screen flex gap-5 items-center justify-between px-24 py-6 z-50`} ref={navbarRef}>
+        <div className={`${(transparent)? "bg-transparent ": "bg-whitegray shadow-lg"} fixed top-0 left-0 w-screen flex gap-5 items-center justify-between px-24 py-6 z-50`} ref={navbarRef}>
             <LogoText text="sanjeevani" />
             <Links />
         </div>

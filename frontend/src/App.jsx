@@ -6,7 +6,7 @@ import { URL } from "./data";
 const App = () => {
     return (
         <>
-            <section className="w-full h-screen bg-whitegray overflow-x-hidden flex flex-col gap-10 justify-center items-center">
+
                 <components.Navbar />
                 <Routes>
                     {/* public routes */}
@@ -23,7 +23,6 @@ const App = () => {
                         </Route>
                     </Route>
                 </Routes>
-            </section>
         </>
     );
 };

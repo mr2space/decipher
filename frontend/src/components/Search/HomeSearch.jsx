@@ -1,5 +1,6 @@
 import React from "react";
 import Components from "../components";
+import { motion, AnimatePresence } from "framer-motion";
 import { MdOutlineFileUpload } from "react-icons/md";
 import { useEffect, useState, useRef } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -14,6 +15,14 @@ import { URL } from "../../data";
 const HomeSearch = () => {
     const url = ["/search", "/photo_upload"];
     const uploadRef = useRef(null);
+    const variants = {
+        openGreen: { opacity: 1, y: "0" },
+        closedGreen: { opacity: 0, y: 0 },
+        openYellow: { opacity: 1, y: 0 },
+        closedYellow: { opacity: 0, y: "10px" },
+    };
+
+    const [isText, setIsText] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -22,16 +31,15 @@ const HomeSearch = () => {
     const navigate = useNavigate();
 
     const [value, setValue] = useState("");
-    const [text, setText] = useState(false);
 
     const inputBox = useRef(null);
 
     const handleFocus = () => {
-        if (text && value === "") {
-            setText(false);
+        if (isText && value === "") {
+            setIsText(false);
             return;
         }
-        setText(true);
+        setIsText(true);
     };
 
     const handleTextSubmit = async () => {
@@ -94,32 +102,47 @@ const HomeSearch = () => {
                 className="w-full h-11 rounded-full shadow-md shadow-gray-500 focus:border-0 outline-none px-6 py-2"
             />
             <div className="button_box absolute right-0 top-0">
-                {text ? (
-                    <>
-                        <div onClick={handleTextSubmit}>
-                            <Components.GreenButton>
-                                Search
-                            </Components.GreenButton>
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <form action="" method="post">
-                            <input
-                                type="file"
-                                name="photo"
-                                id="photo"
-                                className=" hidden"
-                                ref={uploadRef}
-                            />
-                            <Components.YellowButton
-                                handleClick={handleButtonUploadClick}
+                <AnimatePresence>
+                    {isText ? (
+                        <>
+                            <motion.div
+                                onClick={handleTextSubmit}
+                                initial={{ y: "10px" }}
+                                animate={isText ? "openGreen" : "closedGreen"}
+                                variants={variants}
+                                exit={{ opacity: 0 }}
                             >
-                                Upload
-                            </Components.YellowButton>
-                        </form>
-                    </>
-                )}
+                                <Components.GreenButton>
+                                    Search
+                                </Components.GreenButton>
+                            </motion.div>
+                        </>
+                    ) : (
+                        <>
+                            <form
+                                action=""
+                                method="post"
+                                initial={{ y: "0px" }}
+                                animate={!isText ? "closedYellow" : "openYellow"}
+                                variants={variants}
+                                exit={{ opacity: 0 }}
+                            >
+                                <input
+                                    type="file"
+                                    name="photo"
+                                    id="photo"
+                                    className=" hidden"
+                                    ref={uploadRef}
+                                />
+                                <Components.YellowButton
+                                    handleClick={handleButtonUploadClick}
+                                >
+                                    Upload
+                                </Components.YellowButton>
+                            </form>
+                        </>
+                    )}
+                </AnimatePresence>
             </div>
         </div>
     );

@@ -36,7 +36,7 @@ const requestPlantSpecies = async (req, res) => {
             "include-related-images": true,
             "nb-results": 1,
             "api-key": process.env.MODEL_PLANT_API,
-            images: req.file.location,
+            "images": req.file.location,
         },
     };
     const response = await axios.get(process.env.MODEL_PLANT_HOST, options);
@@ -60,7 +60,7 @@ const speciesPhotoHandler = asyncHandler(async (req, res) => {
     }
     const details = await requestPlantSpecies(req, res);
     const payload = {
-        result: { ...details },
+        ... details,
         location: {},
     };
     // logger.info(req.body);
@@ -70,7 +70,7 @@ const speciesPhotoHandler = asyncHandler(async (req, res) => {
         logger.info(req.body.location);
         payload.location = await saveLocation(
             position,
-            payload.result?.species[1].toLowerCase(),
+            payload.species[1].toLowerCase(),
             req.user._id
         ); // [longitude, latitude]
         payload.location.save();

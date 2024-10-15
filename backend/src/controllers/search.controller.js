@@ -45,22 +45,24 @@ const searchController = asyncHandler(async (req, res) => {
     if (!user.isCreditForSearch()) {
         throw new ApiError(403, "Not Enough Credit for searching");
     }
+    let response = {};
+    if (req.body.species) {
+        response = await speciesQuality(req.body.species);
+    } else if (req.body.problem) {
+        response = await medicineSuggestion(req.body.problem);
+    } else {
+        throw new ApiError(400, "Species or Problem field not found");
+    }
     try {
-        let response = {};
-        if (req.body.species) {
-            response = await speciesQuality(req.body.species);
-        } else if (req.body.problem) {
-            response = await medicineSuggestion(req.body.problem);
-        } else {
-            throw new ApiError(400, "Species or Problem field not found");
-        }
         await user.decrementCreditForSearch();
         await user.save();
         res.status(200).json(new ApiResponse(200, response, "Gemini Response"));
     } catch (error) {
+        console.log(error);
         throw new ApiError(
             500,
-            error.message || "something wen wrong in search"
+            error.message || "something wen wrong in search",
+            error
         );
     }
 });
@@ -69,12 +71,12 @@ const searchController = asyncHandler(async (req, res) => {
 
 const insertSampleLocation = asyncHandler(async (req, res) => {
     if (!req.body.location && !req.body.name) {
-        throw new ApiError(422 , "location and name is required");
+        throw new ApiError(422, "location and name is required");
     }
     let location = {
         type: "Point",
-        coordinates:req.body.location
-    }
+        coordinates: req.body.location,
+    };
     const species = new Species({
         name: req.body.name,
         location: location,
@@ -84,22 +86,21 @@ const insertSampleLocation = asyncHandler(async (req, res) => {
     res.status(200).json(new ApiResponse(200, species, "Addedd successfully"));
 });
 
-const allLocation = asyncHandler(async (req, res)=>{
+const allLocation = asyncHandler(async (req, res) => {
     const species = await Species.find();
-    res.status(200).json(new ApiResponse(200, species, "all data entry"))
-})
+    res.status(200).json(new ApiResponse(200, species, "all data entry"));
+});
 
-const speciesLocation = asyncHandler(async (req, res)=>{
-    if (!req.query.species){
-        throw new ApiError(422 , "species field is required");
+const speciesLocation = asyncHandler(async (req, res) => {
+    if (!req.query.species) {
+        throw new ApiError(422, "species field is required");
     }
     try {
-        const spieces = await Species.find({name:req.query.species});
+        const spieces = await Species.find({ name: req.query.species });
         res.status(200).json(new ApiResponse(200, spieces, "list of species"));
     } catch (error) {
         throw new ApiError(500, "something went wrong during search");
     }
-})
-
+});
 
 export { searchController, insertSampleLocation, allLocation, speciesLocation };

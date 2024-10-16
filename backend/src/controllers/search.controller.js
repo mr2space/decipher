@@ -17,7 +17,8 @@ const medicineSuggestion = async (problem) => {
     } catch (error) {
         throw new ApiError(
             500,
-            error.message || "Something went wrong in medicine suggestion"
+            error.message || "Something went wrong in medicine suggestion",
+            error
         );
         return {};
     }
@@ -32,9 +33,11 @@ const speciesQuality = async (species) => {
         const response = await GenAiMedicineSuggestion(prompt_text);
         return response;
     } catch (error) {
+        console.log(error);        
         throw new ApiError(
             500,
-            error.message || "something went wrong in species quality"
+            error.message || "something went wrong in species quality",
+            error
         );
         return {};
     }
@@ -61,7 +64,7 @@ const searchController = asyncHandler(async (req, res) => {
         console.log(error);
         throw new ApiError(
             500,
-            error.message || "something wen wrong in search",
+            error.message || "something went wrong in search",
             error
         );
     }

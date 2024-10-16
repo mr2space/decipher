@@ -40,7 +40,6 @@ const requestPlantSpecies = async (req, res) => {
         },
     };
     const response = await axios.get(process.env.MODEL_PLANT_HOST, options);
-    console.log(JSON.stringify(response.data));
     return {
         score: response.data.results[0].score * 100,
         species: [

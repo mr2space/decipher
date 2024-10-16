@@ -57,7 +57,7 @@ const HomeSearch = () => {
                 const formData = new FormData();
                 formData.append("photo", file);
                 dispatch(photoSpeciesScan({axiosPrivate:axiosPrivate, formData:formData}))
-                navigate(URL.SPECIES_SEARCH_URL, { from: location, replace: true });
+                navigate(URL.SPECIES_REACT_URL, { from: location, replace: true });
             }
         } catch (error) {
             console.log(error);

@@ -47,16 +47,17 @@ export const photoSpeciesScan = createAsyncThunk(
             headers: {
                 "Content-Type": "multipart/form-data",
             },
+            withCredentials:true
         });
-        speciesResponse.data = speciesResponse.data.data
-        console.log(speciesResponse);
-        const detailResponse = await axiosPrivate.post(
+        speciesResponse.data = speciesResponse.data.data;
+        const detailResponse = await axiosPrivate.get(
             URL.SPECIES_SEARCH_URL,
-            { species: speciesResponse.data.species[1] },
             {
                 withCredentials: true,
+                params: { species: speciesResponse.data.species[1] },
             }
         );
+        console.log(detailResponse)
         const locationResponse = await axiosPrivate.get(
             URL.LOCATION_SEARCH_URL,
             {
@@ -70,10 +71,9 @@ export const photoSpeciesScan = createAsyncThunk(
         );
         locationResponse.data = locationResponse.data?.data;
         detailResponse.data = detailResponse.data?.data;
-        detailResponse.data["score"] = speciesResponse.data.score;
         return {
             species: speciesResponse.data.species[1],
-            data: detailResponse.data,
+            data: [...detailResponse.data, speciesResponse.data.score],
             locations: locationResponse.data,
             photoURL: speciesResponse.data?.photoURL,
         };

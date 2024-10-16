@@ -7,11 +7,19 @@
 
 body{
     @apply bg-whitegray w-screen scroll-smooth overflow-x-hidden m-0;
-}
+    overflow-y: scroll;
+}  
+
+/* TODO: ENABLE AFTER DEVELOPMENT */
+/* ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+} */
 
 #root{
     @apply m-0 p-0 font-poppins;
 }
+
 
 .card_detail_box {
     background: rgb(2, 0, 36);

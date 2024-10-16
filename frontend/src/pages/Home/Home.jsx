@@ -14,6 +14,7 @@ const Home = () => {
         <TechStackSection />        
         <AppSection />
         <AppFeatureSection />
+        <components.Footer />
     </>
   )
 }

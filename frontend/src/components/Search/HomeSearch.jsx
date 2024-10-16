@@ -1,15 +1,12 @@
 import React from "react";
 import Components from "../components";
 import { motion, AnimatePresence } from "framer-motion";
-import { MdOutlineFileUpload } from "react-icons/md";
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { selectCurrentData, setResponse } from "../../utils/speciesSlice";
-import textSearchSlice from "../../utils/speciesSlice";
+import { detailsSpeciesText, photoSpeciesScan } from "../../utils/speciesSlice";
 import { URL } from "../../data";
 
 const HomeSearch = () => {
@@ -42,21 +39,10 @@ const HomeSearch = () => {
         setIsText(true);
     };
 
-    const handleTextSubmit = async () => {
-        const requestAndUpdate = async () => {
-            const response = await axiosPrivate.post(
-                URL.SPECIES_SEARCH_URL,
-                { species: value },
-                {
-                    withCredentials: true,
-                }
-            );
-            // navigate()
-            dispatch(setResponse({ species: value, data: response.data.data }));
-            setValue("");
-        };
+    const handleTextSubmit =() => {
         try {
-            requestAndUpdate();
+            dispatch(detailsSpeciesText({axiosPrivate: axiosPrivate, species:value, location:null}));
+            setValue("");
             navigate(URL.SPECIES_SEARCH_URL, { from: location, replace: true });
         } catch (error) {
             console.log(error);
@@ -70,12 +56,8 @@ const HomeSearch = () => {
             if (file) {
                 const formData = new FormData();
                 formData.append("photo", file);
-                const response = await axiosPrivate.post("/upload", formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                });
-                console.log(response);
+                dispatch(photoSpeciesScan({axiosPrivate:axiosPrivate, formData:formData}))
+                navigate(URL.SPECIES_SEARCH_URL, { from: location, replace: true });
             }
         } catch (error) {
             console.log(error);

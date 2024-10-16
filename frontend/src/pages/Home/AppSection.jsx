@@ -43,7 +43,7 @@ const AppSection = () => {
                         </motion.div>
                     </div>
                 </motion.div>
-                <div className="wrapper w-3/4 h-4/5 pl-24 py-16 flex flex-col justify-start gap-32">
+                <div className="wrapper w-3/4 h-4/5 pl-24 py-16 flex flex-col justify-start gap-16">
                     <div className="wrapper">
                         <motion.div className="title text-[4rem] font-semibold font-poppins"
                             initial={{ opacity: 0, y: "10%" }}
@@ -83,7 +83,7 @@ const AppSection = () => {
                         </motion.div>
                     </div>
 
-                    <motion.div className="wrapper flex flex-row w-full gap-48"
+                    <motion.div className="wrapper flex flex-row w-full gap-36"
                         initial={{ opacity: 0, y: "10%" }}
                         whileInView={{ opacity: 1, y: "0" }}
                         viewport={{ once: true }}

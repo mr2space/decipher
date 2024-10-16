@@ -62,6 +62,7 @@ const speciesPhotoHandler = asyncHandler(async (req, res) => {
     const payload = {
         ... details,
         location: {},
+        photoURL: req.file.location
     };
     // logger.info(req.body);
     const position = req.body.location;

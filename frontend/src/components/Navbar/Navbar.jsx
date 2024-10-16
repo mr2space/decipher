@@ -3,6 +3,8 @@ import { FaLeaf } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import SignUpButton from "../Button/SignUpButton";
 
+import { NavbarURL } from "../../data/NavbarURL";
+
 import { useSelector, useDispatch } from "react-redux";
 import { selectCurrentCredit } from "../../utils/authSlice";
 import { useRef } from "react";
@@ -18,14 +20,9 @@ const Alink = ({ text, url }) => {
 const Links = () => {
     let credit = useSelector(selectCurrentCredit);
     const [localCount, setLocalCount] = useState(credit);
-    const data = [
-        { url: "/", text: "Home" },
-        { url: "/#app-download", text: "App" },
-        { url: "/secure", text: "Search" },
-    ];
     return (
         <div className="font-medium flex gap-10 items-center">
-            {data.map(({ url, text }) => (
+            {NavbarURL.map(({ url, text }) => (
                 <Alink url={url} text={text} key={text} />
             ))}
             {!credit ? (

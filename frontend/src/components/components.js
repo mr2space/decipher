@@ -9,6 +9,9 @@ import YellowButton from "./Button/YellowButton";
 import RequiredAuth from "./Auth/RequiredAuth";
 import PersistantLogin from "./Auth/PersistantLogin"
 import LoadingTip from "./Navbar/LoadingTip";
+import Footer from "./Footer/Footer"
+import Loader from "./Search/Loader";
+import SpecialYellowButton from "./Button/SpecialYellowButton";
 
 
 export default {
@@ -22,5 +25,8 @@ export default {
     YellowButton,
     RequiredAuth,
     PersistantLogin,
-    LoadingTip
+    LoadingTip,
+    Footer,
+    Loader,
+    SpecialYellowButton
 }

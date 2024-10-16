@@ -15,7 +15,7 @@ const Card = ({ id, title, icon, details }) => {
             transition={{
                 ease: "easeInOut",
                 duration: 1,
-                delay: id / 2 ,
+                delay: id / 4 + 0.2 ,
             }}
         >
             <img
@@ -98,6 +98,7 @@ const AppFeatureSection = () => {
                     className="Bg_yellow bg-secondary-500 relative  w-[200px] h-[200px] left-[-150px] blur-[90px] -z-10"
                 ></motion.div>
             </motion.div>
+            
         </section>
     );
 };

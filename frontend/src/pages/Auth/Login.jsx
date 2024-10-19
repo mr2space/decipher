@@ -48,7 +48,7 @@ const Login = () => {
         }
     };
     return (
-        <div className="wrapper w-screen h-screen z-10 flex justify-center items-center relative bg-url bg-gradient-to-r from-cyan-500 to-blue-500">
+        <div className="wrapper w-screen h-screen z-10 flex justify-center items-center relative bg-url bg-gradient-to-r from-cyan-500 to-blue-500'">
             <div className="close text-4xl bg-gray-500 hover:bg-gray-700 text-whitegray relative bottom-[13%] left-[calc(25%+38px)] font-poppins cursor-pointer">
                 <MdClose />
             </div>
@@ -79,6 +79,7 @@ const Login = () => {
                             name="password"
                             className="w-full px-6 py-2 text-lg rounded-full shadow-md shadow-gray-400"
                         />
+                        <p className='text-black text-center my-2'>New User? <Link to={URL.SIGNUP_URL}>Signup</Link></p>
                         <button
                             type="submit"
                             className="w-full px-6 py-2 text-lg rounded-full bg-primary-500 text-center hover:bg-primary-600 text-whitegray shadow-md shadow-primary-200"

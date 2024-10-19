@@ -1,5 +1,6 @@
 const URL = {
     LOGIN_URL : "/auth/login",
+    SIGNUP_URL: "/auth/register",
     HOME_URL : "/",
     BASE_URL : "http://localhost:7000",
     REFRESH_URL:"/auth/refresh-token",

@@ -108,8 +108,8 @@ const Login = () => {
                             </div>
                         </form>
                         <p className="text-black text-center my-2 mb-4">
-                            Already have an account?{" "}
-                            <Link to={URL.LOGIN_URL}>Login</Link>
+                            Do not have an account?{" "}
+                            <Link to={URL.SIGNUP_URL}>Register</Link>
                         </p>
                         <div className="flex">
                             <div className=" border-t-2 w-1/3 mt-2 mr-4"></div>

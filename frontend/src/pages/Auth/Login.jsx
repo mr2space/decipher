@@ -6,6 +6,8 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import { URL } from "../../data";
 import { useSelector, useDispatch } from "react-redux";
 import { setCredentials } from "../../utils/authSlice";
+import { Icons, Images } from "../../assets";
+import toast from "react-hot-toast";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -18,6 +20,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!username && !password) {
+            toast.error("All fields are required!");
             return;
         }
         try {
@@ -42,51 +45,86 @@ const Login = () => {
                     credit: response.data?.user?.credit,
                 })
             );
+            toast.success("Login Successful");
             navigate(from, { replace: true });
         } catch (error) {
             console.log(error);
         }
     };
     return (
-        <div className="wrapper w-screen h-screen z-10 flex justify-center items-center relative bg-url bg-gradient-to-r from-cyan-500 to-blue-500'">
-            <div className="close text-4xl bg-gray-500 hover:bg-gray-700 text-whitegray relative bottom-[13%] left-[calc(25%+38px)] font-poppins cursor-pointer">
-                <MdClose />
-            </div>
-            <div className="form__box w-1/4 py-8 bg-whitegray rounded-lg px-5 flex flex-col gap-12 shadow-md shadow-gray-800">
-                <div className="heading text-4xl text-center">Sign in</div>
-                <div className="form">
-                    <form
-                        action="http://127.0.0.1:7000/auth/login"
-                        onSubmit={handleSubmit}
-                        method="post"
-                        className="flex flex-col gap-7"
-                    >
-                        <input
-                            type="text"
-                            placeholder="username"
-                            onChange={(event) =>
-                                setUsername(event.target.value)
-                            }
-                            name="username"
-                            className="w-full px-6 py-2 text-lg rounded-full shadow-md shadow-gray-400"
-                        />
-                        <input
-                            type="password"
-                            placeholder="password"
-                            onChange={(event) =>
-                                setPassword(event.target.value)
-                            }
-                            name="password"
-                            className="w-full px-6 py-2 text-lg rounded-full shadow-md shadow-gray-400"
-                        />
-                        <p className='text-black text-center my-2'>New User? <Link to={URL.SIGNUP_URL}>Signup</Link></p>
-                        <button
-                            type="submit"
-                            className="w-full px-6 py-2 text-lg rounded-full bg-primary-500 text-center hover:bg-primary-600 text-whitegray shadow-md shadow-primary-200"
+        <div className="min-h-screen py-24 bg-whitegray ">
+            <div className="container mx-auto">
+                <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-2xl overflow-hidden">
+                    <div className="w-full lg:w-1/2 flex flex-col items-center justify-center py-8 bg-no-repeat ">
+                        <div className="flex  h-25 ml-3.5">
+                            <img
+                                src={Images.plant3}
+                                className=" inline-block ml-1 rounded-lg"
+                                alt="plant vector"
+                            />
+                        </div>
+                    </div>
+                    <div className="w-full lg:w-1/2 pt-16 pb-8 px-12">
+                        <h2 className="relative items-center text-center text-4xl mb-8 font-bold">
+                            Login
+                        </h2>
+                        <form
+                            action="http://127.0.0.1:7000/auth/login"
+                            onSubmit={handleSubmit}
+                            method="post"
+                            className="flex flex-col gap-7"
                         >
-                            Sign in
+                            <div className="mt-5 -mb-4">
+                                <input
+                                    type="text"
+                                    placeholder="username"
+                                    onChange={(event) =>
+                                        setUsername(event.target.value)
+                                    }
+                                    name="username"
+                                    className="border h-11 border-gray-400 py-1 px-2 w-full rounded-md"
+                                />
+                            </div>
+                            <div className="mt-5">
+                                <input
+                                    className="border h-11 border-gray-400 py-1 px-2 w-full rounded-md -mb-4"
+                                    put
+                                    type="password"
+                                    placeholder="password"
+                                    onChange={(event) =>
+                                        setPassword(event.target.value)
+                                    }
+                                    name="password"
+                                />
+                            </div>
+
+                            <div className="mt-5">
+                                <button
+                                    type="submit"
+                                    className="w-full bg-green-600 py-3 text-center text-white rounded-xl hover:bg-green-700 mb-3"
+                                >
+                                    Login
+                                </button>
+                            </div>
+                        </form>
+                        <p className="text-black text-center my-2 mb-4">
+                            Already have an account?{" "}
+                            <Link to={URL.LOGIN_URL}>Login</Link>
+                        </p>
+                        <div className="flex">
+                            <div className=" border-t-2 w-1/3 mt-2 mr-4"></div>
+                            <div className=" text-sm">Or login with</div>
+                            <div className=" border-t-2 w-1/3 mt-2 ml-4"></div>
+                        </div>
+                        <button className="border-2 border-gray-600 h-12 w-full mt-4 rounded-xl bg-red-600 flex items-center justify-center gap-2 text-white hover:bg-red-700">
+                            <img
+                                src={Icons.icon1}
+                                alt="Error"
+                                className="h-5"
+                            />
+                            <span>Google</span>
                         </button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -50,11 +50,11 @@ export const photoSpeciesScan = createAsyncThunk(
             withCredentials:true
         });
         speciesResponse.data = speciesResponse.data.data;
-        const detailResponse = await axiosPrivate.get(
+        const detailResponse = await axiosPrivate.post(
             URL.SPECIES_SEARCH_URL,
+            { species: speciesResponse.data.species[1] },
             {
                 withCredentials: true,
-                params: { species: speciesResponse.data.species[1] },
             }
         );
         console.log(detailResponse)

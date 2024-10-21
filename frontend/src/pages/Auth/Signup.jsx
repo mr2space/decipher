@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";  // Added useDispatch import
 import { URL } from "../../data";
 import { Images, Icons } from "../../assets";
 import { motion } from "framer-motion";
@@ -16,6 +17,31 @@ function Signup() {
         geolocation: "",
         gender: "",
     });
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const dispatch = useDispatch();
+    
+    useEffect(() => {
+        const queryParams = new URLSearchParams(location.search);
+        const oauthSuccess = queryParams.get("oauthSuccess");
+        const accessToken = queryParams.get("accessToken");
+        const user = queryParams.get("user");
+
+        if (oauthSuccess && accessToken && user) {
+            const parsedUser = JSON.parse(decodeURIComponent(user));
+
+            // Dispatch credentials to the Redux store
+            dispatch(
+                setCredentials({
+                    accessToken,
+                    user: parsedUser,
+                })
+            );
+            toast.success("OAuth login successful!");
+            navigate("/", { replace: true }); // Redirect to homepage
+        }
+    }, [location.search, navigate, dispatch]);
 
     const [termsAccepted, setTermsAccepted] = useState(false);
 
@@ -98,6 +124,15 @@ function Signup() {
             console.log("Server response:", res.data);
             if (res.data.success) {
                 toast.success("Successfully registered!");
+                setUser({
+                    fullname: "",
+                    username: "",
+                    password: "",
+                    email: "",
+                    phone: "",
+                    geolocation: "",
+                    gender: "",
+                });
             } else {
                 toast.error(res.data.message || "Registration failed.");
             }
@@ -105,18 +140,15 @@ function Signup() {
             console.error("Registration error response:", error.response);
             toast.error(error.response?.data?.message || "Registration failed");
         }
-        setUser({
-            fullname: "",
-            username: "",
-            password: "",
-            email: "",
-            phone: "",
-            geolocation: "",
-            gender: "",
-        });
+    };
+
+    const oauthHandler = (e) => {
+        e.preventDefault();
+        window.location.href = "http://127.0.0.1:7000/auth/oauth";
     };
 
     return (
+        <>
         <div className="min-h-screen py-24 bg-whitegray ">
             <div className="container mx-auto">
                 <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-2xl overflow-hidden">
@@ -270,7 +302,10 @@ function Signup() {
                             <div className=" text-sm">Or register with</div>
                             <div className=" border-t-2 w-1/3 mt-2 ml-3"></div>
                         </div>
-                        <button className="border-2 border-gray-600 h-12 w-full mt-4 rounded-xl bg-red-600 flex items-center justify-center gap-2 text-white hover:bg-red-700">
+                        <button
+                            className="border-2 border-gray-600 h-12 w-full mt-4 rounded-xl bg-red-600 flex items-center justify-center gap-2 text-white hover:bg-red-700"
+                            onClick={oauthHandler}
+                        >
                             <img
                                 src={Icons.icon1}
                                 alt="Error"
@@ -281,7 +316,10 @@ function Signup() {
                     </div>
                 </div>
             </div>
+            
         </div>
+        
+        </>
     );
 }
 

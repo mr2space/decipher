@@ -4,5 +4,5 @@ import { authenticate } from "../middleware/auth.middleware.js";
 const router = express.Router();
 
 router.route("").post(authenticate, searchController);
-router.route("/species").get(authenticate, speciesLocation);
+router.route("/species").get(authenticate, searchController);
 export {router};

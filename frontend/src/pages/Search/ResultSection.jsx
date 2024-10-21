@@ -2,13 +2,16 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { selectSpecies } from "../../utils/speciesSlice";
-import LoadingSkeleton from "../../components/Card/LoadingSkeleton";
+import LoadingSkeleton from "../../components/Loading/CardLoading";
+import TextLoading from "../../components/Loading/TextLoading";
 import { Images, Vectors } from "../../assets";
+import Footer from "../../components/Footer/Footer";
 
 const ResultSection = () => {
-    const { data, species, status, locations, photoURL, error } =
+    const { data, species, status, locations, photoURL, error, score } =
         useSelector(selectSpecies);
-        console.log({ data, species, status, locations, photoURL, error })
+    console.log({ data, species, status, locations, photoURL, error });
+
     return (
         <section className="w-full h-screen flex flex-col gap-10 justify-center items-center z-10 font-poppins">
             <div className="wrapper mt-[80px] h-full w-full">
@@ -27,8 +30,15 @@ const ResultSection = () => {
                             <div className="subtitle_hero font-poppins font-medium text-[26px] pl-2">
                                 Species
                             </div>
-                            <div className="title_hero font-semibold font-poppins text-[80px]">
-                                {status === "400" ? "Tulsi" : species || "Tulsi"}
+                            <div className="flex title_hero font-semibold font-poppins text-[80px]">
+                                {/* Ensure loading effect works for species */}
+                                {status === "loading" ? (
+                                    <TextLoading />
+                                ) : status === "400" ? (
+                                    "Tulsi"
+                                ) : (
+                                    species || "Tulsi"
+                                )}
                                 <motion.img
                                     drag
                                     dragConstraints={{
@@ -45,34 +55,70 @@ const ResultSection = () => {
                             <div className="font-medium text-[22px] ml-4">
                                 {"   "}Score:
                                 <div className="inline-block subtitle_hero font-poppins font-medium text-[22px] pl-2">
-                                    {status === "400" ? "92.6" : data?.score || "92.6"}
+                                    {status === "loading" ? (
+                                        <TextLoading />
+                                    ) : (
+                                        score || "N/A"
+                                    )}
                                 </div>
                             </div>
                         </motion.div>
 
                         <div className="w-4/5 flex flex-col justify-center items-start gap-4">
                             <div className="wrapper">
-                                <div className="heading text-[1.8rem] font-medium">Description</div>
+                                <div className="heading text-[1.8rem] font-medium">
+                                    Description
+                                </div>
                                 <p className="pl-2">
-                                    {status === "400" ? "demo" : data?.description || "demo"}
+                                    {status === "loading" ? (
+                                        <TextLoading />
+                                    ) : status === "400" ? (
+                                        "demo"
+                                    ) : (
+                                        data?.description || "demo"
+                                    )}
                                 </p>
                             </div>
                             <div className="wrapper">
-                                <div className="heading text-[1.8rem] font-medium">Properties</div>
+                                <div className="heading text-[1.8rem] font-medium">
+                                    Properties
+                                </div>
                                 <p className="pl-2">
-                                    {status === "400" ? "demo2" : data?.properties || "demo2"}
+                                    {status === "loading" ? (
+                                        <TextLoading />
+                                    ) : status === "400" ? (
+                                        "demo2"
+                                    ) : (
+                                        data?.properties || "demo2"
+                                    )}
                                 </p>
                             </div>
                             <div className="wrapper">
-                                <div className="heading text-[1.8rem] font-medium">Helps in</div>
+                                <div className="heading text-[1.8rem] font-medium">
+                                    Helps in
+                                </div>
                                 <p className="pl-2">
-                                    Respiratory ailments, fever, cold, cough, stress, anxiety, inflammation, and digestive issues.
+                                    {status === "loading" ? (
+                                        <TextLoading />
+                                    ) : status === "400" ? (
+                                        "demo2"
+                                    ) : (
+                                        data?.helpful_in || "demo2"
+                                    )}
                                 </p>
                             </div>
                             <div className="wrapper">
-                                <div className="heading text-[1.8rem] font-medium">Benefits</div>
+                                <div className="heading text-[1.8rem] font-medium">
+                                    Benefits
+                                </div>
                                 <p className="pl-2">
-                                    Boosts immunity, improves respiratory health, reduces stress, promotes relaxation, supports healthy digestion, and has antibacterial and antiviral properties.
+                                    {status === "loading" ? (
+                                        <TextLoading />
+                                    ) : status === "400" ? (
+                                        "demo2"
+                                    ) : (
+                                        data?.benefits || "demo2"
+                                    )}
                                 </p>
                             </div>
                         </div>
@@ -84,7 +130,11 @@ const ResultSection = () => {
                         ) : (
                             <div className="image_box w-full h-4/5 rounded-[2rem] bg-primary-100 overflow-hidden">
                                 <img
-                                    src={status === "400" ? Images.plant1 : photoURL || Images.plant1}
+                                    src={
+                                        status === "400"
+                                            ? Images.plant1
+                                            : photoURL || Images.plant1
+                                    }
                                     alt="plant image"
                                     className="w-full h-full aspect-[3/4] object-cover"
                                 />

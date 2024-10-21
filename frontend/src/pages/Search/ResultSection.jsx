@@ -12,6 +12,7 @@ import Loader from "../../components/Search/Loader";
 const ResultSection = () => {
     const { data, species, status, locations, photoURL, error } =
         useSelector(selectSpecies);
+        console.log({ data, species, status, locations, photoURL, error })
     return (
         <section className="w-full h-screen flex flex-col gap-10 justify-center items-center z-10 font-poppins">
             <div className="wrapper mt-[80px] h-full w-full">

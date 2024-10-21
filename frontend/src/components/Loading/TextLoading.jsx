@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-const TextLoading = () => {
+const TextLoading = ({ width = 'w-80', height = 'h-8', margin = 'mt-4' }) => {
   return (
-    <div className="mage_box h-8 w-80 rounded-lg bg-gray-300 animate-pulse overflow-hidden mt-4"></div>
-  )
-}
+    <div className={`mage_box ${height} ${width} rounded-lg bg-gray-300 animate-pulse overflow-hidden ${margin}`}></div>
+  );
+};
 
-export default TextLoading
+export default TextLoading;

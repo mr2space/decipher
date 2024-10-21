@@ -13,6 +13,7 @@ const ResultSection = () => {
     console.log({ data, species, status, locations, photoURL, error });
 
     return (
+        <>
         <section className="w-full h-screen flex flex-col gap-10 justify-center items-center z-10 font-poppins">
             <div className="wrapper mt-[80px] h-full w-full">
                 <div className="flex flex-row-reverse gap-16 items-center justify-between w-full px-24 h-full ">
@@ -33,7 +34,11 @@ const ResultSection = () => {
                             <div className="flex title_hero font-semibold font-poppins text-[80px]">
                                 {/* Ensure loading effect works for species */}
                                 {status === "loading" ? (
-                                    <TextLoading />
+                                    <TextLoading
+                                            width="w-[15rem]"
+                                            height="h-10"
+                                            margin="mt-2 mb-4"
+                                        />
                                 ) : status === "400" ? (
                                     "Tulsi"
                                 ) : (
@@ -53,10 +58,17 @@ const ResultSection = () => {
                                 />
                             </div>
                             <div className="font-medium text-[22px] ml-4">
-                                {"   "}Score:
+                                {"   "}
+                                <span>Score:</span>
                                 <div className="inline-block subtitle_hero font-poppins font-medium text-[22px] pl-2">
                                     {status === "loading" ? (
-                                        <TextLoading />
+                                        <div className="pt-4">
+                                        <TextLoading
+                                            width="w-[15rem]"
+                                            height="h-8"
+                                            margin="mx-2"
+                                        />
+                                        </div>
                                     ) : (
                                         score || "N/A"
                                     )}
@@ -71,7 +83,11 @@ const ResultSection = () => {
                                 </div>
                                 <p className="pl-2">
                                     {status === "loading" ? (
-                                        <TextLoading />
+                                        <TextLoading
+                                            width="w-[35rem]"
+                                            height="h-8"
+                                            margin="mt-2 mb-4"
+                                        />
                                     ) : status === "400" ? (
                                         "demo"
                                     ) : (
@@ -85,7 +101,11 @@ const ResultSection = () => {
                                 </div>
                                 <p className="pl-2">
                                     {status === "loading" ? (
-                                        <TextLoading />
+                                        <TextLoading
+                                            width="w-[28rem]"
+                                            height="h-8"
+                                            margin="mt-2 mb-4"
+                                        />
                                     ) : status === "400" ? (
                                         "demo2"
                                     ) : (
@@ -99,7 +119,11 @@ const ResultSection = () => {
                                 </div>
                                 <p className="pl-2">
                                     {status === "loading" ? (
-                                        <TextLoading />
+                                        <TextLoading
+                                            width="w-[35rem]"
+                                            height="h-8"
+                                            margin="mt-2 mb-4"
+                                        />
                                     ) : status === "400" ? (
                                         "demo2"
                                     ) : (
@@ -113,7 +137,11 @@ const ResultSection = () => {
                                 </div>
                                 <p className="pl-2">
                                     {status === "loading" ? (
-                                        <TextLoading />
+                                        <TextLoading
+                                            width="w-[28rem]"
+                                            height="h-8"
+                                            margin="mt-2 mb-4"
+                                        />
                                     ) : status === "400" ? (
                                         "demo2"
                                     ) : (
@@ -181,6 +209,8 @@ const ResultSection = () => {
                 ></motion.div>
             </motion.div>
         </section>
+        <Footer/>
+        </>
     );
 };
 

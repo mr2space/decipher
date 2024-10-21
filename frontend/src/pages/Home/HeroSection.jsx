@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { components } from "../../components";
 import { Images, Vectors } from "../../assets";
 import { FaCanadianMapleLeaf } from "react-icons/fa6";
@@ -6,9 +6,10 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../utils/authSlice";
 import HomeSearch from "../../components/Search/HomeSearch";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { URL } from "../../data";
 
 const HomeSection = () => {
-
     const user = useSelector(selectCurrentUser);
     return (
         <>
@@ -61,9 +62,11 @@ const HomeSection = () => {
                                             <HomeSearch />
                                         ) : (
                                             <>
-                                                <components.GreenButton>
-                                                    Sign up!
-                                                </components.GreenButton>
+                                                <Link to={URL.LOGIN_URL}>
+                                                    <components.GreenButton>
+                                                        Sign up!
+                                                    </components.GreenButton>
+                                                </Link>
 
                                                 <components.TransparentButton>
                                                     Docs

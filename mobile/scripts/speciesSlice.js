@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { URL } from "../data";
+import { urls as URL } from "../constants";
 
 export const detailsSpeciesText = createAsyncThunk(
     "species/text_search",
@@ -73,8 +73,7 @@ export const photoSpeciesScan = createAsyncThunk(
         detailResponse.data = detailResponse.data?.data;
         return {
             species: speciesResponse.data.species[1],
-            data: detailResponse.data,
-            score:speciesResponse.data.score,
+            data: [...detailResponse.data, speciesResponse.data.score],
             locations: locationResponse.data,
             photoURL: speciesResponse.data?.photoURL,
         };
@@ -87,7 +86,6 @@ const speciesSlice = createSlice({
         data: null,
         species: null,
         status: "idle",
-        score:null,
         locations: null,
         photoURL: null,
         error: null,
@@ -106,7 +104,6 @@ const speciesSlice = createSlice({
             })
             .addCase(detailsSpeciesText.fulfilled, (state, action) => {
                 state.status = "success";
-                
                 state.data = action.payload.data;
                 state.species = action.payload.species;
                 state.locations = action.payload.locations;
@@ -122,7 +119,6 @@ const speciesSlice = createSlice({
             .addCase(photoSpeciesScan.fulfilled, (state, action) => {
                 state.status = "success";
                 state.data = action.payload.data;
-                state.score = action.payload.score;
                 state.species = action.payload.species;
                 state.locations = action.payload.locations;
                 state.photoURL = action.payload.photoURL;

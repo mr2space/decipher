@@ -209,6 +209,7 @@ const ResultSection = () => {
                 ></motion.div>
             </motion.div>
         </section>
+        <div></div>
         <Footer/>
         </>
     );

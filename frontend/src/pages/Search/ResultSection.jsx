@@ -42,7 +42,7 @@ const ResultSection = () => {
                                 ) : status === "400" ? (
                                     "Tulsi"
                                 ) : (
-                                    species || "Tulsi"
+                                    species || "Network Error"
                                 )}
                                 <motion.img
                                     drag
@@ -62,7 +62,7 @@ const ResultSection = () => {
                                 <span>Score:</span>
                                 <div className="inline-block subtitle_hero font-poppins font-medium text-[22px] pl-2">
                                     {status === "loading" ? (
-                                        <div className="pt-4">
+                                        <div className="pt-4 justify-center items-center">
                                         <TextLoading
                                             width="w-[15rem]"
                                             height="h-8"
@@ -91,7 +91,7 @@ const ResultSection = () => {
                                     ) : status === "400" ? (
                                         "demo"
                                     ) : (
-                                        data?.description || "demo"
+                                        data?.description || "N/A"
                                     )}
                                 </p>
                             </div>
@@ -109,7 +109,7 @@ const ResultSection = () => {
                                     ) : status === "400" ? (
                                         "demo2"
                                     ) : (
-                                        data?.properties || "demo2"
+                                        data?.properties || "N/A"
                                     )}
                                 </p>
                             </div>
@@ -127,7 +127,7 @@ const ResultSection = () => {
                                     ) : status === "400" ? (
                                         "demo2"
                                     ) : (
-                                        data?.helpful_in || "demo2"
+                                        data?.helpful_in || "N/A"
                                     )}
                                 </p>
                             </div>
@@ -145,7 +145,7 @@ const ResultSection = () => {
                                     ) : status === "400" ? (
                                         "demo2"
                                     ) : (
-                                        data?.benefits || "demo2"
+                                        data?.benefits || "N/A"
                                     )}
                                 </p>
                             </div>

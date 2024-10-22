@@ -16,11 +16,12 @@ import SearchInput from "../../components/SearchInput";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FilePicker from "../../components/FilePicker";
 import { Redirect, router } from "expo-router";
+import { selectCurrentData } from "../../scripts/speciesSlice";
 
 const Home = () => {
   const user = useSelector(selectCurrentUser);
   const credit = useSelector(selectCurrentCredit);
-
+  const data = useSelector(selectCurrentData);
   // use state for plant selection and medicine selection
 
   const [plant, setPlant] = useState(1);
@@ -109,6 +110,9 @@ const Home = () => {
 
             <FilePicker />
           </View>
+          <Text>
+            {JSON.stringify(data)}
+          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>

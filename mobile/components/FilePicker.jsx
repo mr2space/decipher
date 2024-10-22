@@ -8,27 +8,33 @@ import useAxiosPrivate from "../hook/useAxiosPrivate";
 import {
   selectCurrentSpeciesStatus,
   photoSpeciesScan,
+  selectCurrentData,
+  selectSpecies,
+  selectCurrentSpecies
 } from "../scripts/speciesSlice";
 
 const FilePicker = () => {
-  const [form, setForm] = useState({ photo: null });
   const dispatch = useDispatch();
   const axiosPrivate = useAxiosPrivate();
   const status = useSelector(selectCurrentSpeciesStatus);
-  console.log("document picker", status);
+  const data = useSelector(selectCurrentSpecies)
+  const {error} = useSelector(selectSpecies);
+  
   const openPickerAndUpload = async () => {
     const result = await DocumentPicker.getDocumentAsync({
-      type: ["image/png", "image/jpg", "image/jpeg"],
+      type: ["image/jpg", "image/jpeg"],
+      multiple:false,
+      copyToCacheDirectory: true,
     });
 
     if (!result.canceled) {
-      setForm({
-        ...form,
-        photo: result.assets[0],
-      });
+      const photo =  result.assets[0]
       const formData = new FormData();
-      formData.append("photo", form.photo?.uri);
-      console.log(form.photo?.uri);
+      formData.append('photo', {
+        uri: photo.uri,
+        name: photo.name,
+        type: photo.mimeType || 'image/jpeg', // Fallback to image/jpeg
+      });
       
       await dispatch(
         photoSpeciesScan({ axiosPrivate: axiosPrivate, formData: formData })
@@ -38,7 +44,9 @@ const FilePicker = () => {
         Alert.alert("Document picked", JSON.stringify(result, null, 2));
       }, 1000);
     }
+    
   };
+  console.log("document picker", status);
 
   return (
     <>
@@ -56,6 +64,10 @@ const FilePicker = () => {
             className="ml-2"
           />
         )}
+
+        <Text>
+          {data}
+        </Text>
       </TouchableOpacity>
     </>
   );

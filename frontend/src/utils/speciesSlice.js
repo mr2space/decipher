@@ -69,6 +69,7 @@ export const photoSpeciesScan = createAsyncThunk(
                 withCredentials: true,
             }
         );
+        console.log("slice: location: ", JSON.stringify(locationResponse));
         locationResponse.data = locationResponse.data?.data;
         detailResponse.data = detailResponse.data?.data;
         return {

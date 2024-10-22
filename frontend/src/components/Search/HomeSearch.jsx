@@ -43,7 +43,7 @@ const HomeSearch = () => {
         try {
             dispatch(detailsSpeciesText({axiosPrivate: axiosPrivate, species:value, location:null}));
             setValue("");
-            navigate(URL.SPECIES_SEARCH_URL, { from: location, replace: true });
+            navigate(URL.SPECIES_REACT_URL, { from: location, replace: true });
         } catch (error) {
             console.log(error);
         }

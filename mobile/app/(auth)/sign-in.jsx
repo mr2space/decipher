@@ -79,7 +79,7 @@ const SignIn = () => {
           <CustomButton
             title="Sign In"
             handlePress={submit}
-            containerStyles="mt-7 bg-primary-500 shadow-lg shadow-primary-500 "
+            containerStyles="mt-7 py-3 bg-primary-500 shadow-lg shadow-primary-500 "
             textStyles="text-whitegray"
             isLoading={isSubmitting}
           />

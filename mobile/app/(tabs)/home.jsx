@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image } from "react-native";
+import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState } from "react";
 
@@ -14,7 +14,8 @@ import Selection from "../../components/Selection";
 import SearchInput from "../../components/SearchInput";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import FilePicker from "../../components/FilePicker";
+import { Redirect, router } from "expo-router";
 
 const Home = () => {
   const user = useSelector(selectCurrentUser);
@@ -36,6 +37,10 @@ const Home = () => {
     }
     fn(1);
   };
+  const handleCameraPress = () => {
+    console.log("home:-", "pressed camera");
+    return router.push("/camera")
+  }
   if (plant) {
     handleSubmission = handlePlantSubmission;
   } else {
@@ -95,17 +100,14 @@ const Home = () => {
           {/* Camera and file upload */}
 
           <View className="flex flex-row w-full justify-around">
-            <View className="h-[70px] w-1/2 bg-green-200 border border-green-800 rounded-2xl  justify-center items-center">
+            <TouchableOpacity
+              className="h-[70px] w-1/2 bg-green-200 border border-green-800 rounded-2xl  justify-center items-center"
+              onPress={handleCameraPress}
+            >
               <Ionicons name="camera-outline" size={24} color="black" />
-            </View>
+            </TouchableOpacity>
 
-            <View className="h-[70px] w-1/2 bg-orange-100 border-orange-700 border rounded-xl justify-center items-center text-orange-400">
-              <MaterialCommunityIcons
-                name="account-circle-outline"
-                size={32}
-                color="#E85C0D"
-              />
-            </View>
+            <FilePicker />
           </View>
         </View>
       </ScrollView>

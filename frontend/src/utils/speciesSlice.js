@@ -107,7 +107,7 @@ const speciesSlice = createSlice({
             })
             .addCase(detailsSpeciesText.fulfilled, (state, action) => {
                 state.status = "success";
-                
+                state.score = action.payload.score
                 state.data = action.payload.data;
                 state.species = action.payload.species;
                 state.locations = action.payload.locations;

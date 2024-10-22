@@ -7,7 +7,7 @@ export const medicineSuggesion = createAsyncThunk(
     async (value) => {
         const axiosPrivate = value.axiosPrivate;
         const suggesion = await axiosPrivate.post(
-            URL.MEDICINE_URL,
+            URL.SPECIES_SEARCH_URL,
             {
                 problem: value.problem,
             },

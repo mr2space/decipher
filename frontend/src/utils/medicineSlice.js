@@ -5,16 +5,14 @@ import { URL } from "../data";
 export const medicineSuggesion = createAsyncThunk(
     "medicine/suggesion",
     async (value) => {
+        
         const axiosPrivate = value.axiosPrivate;
         const suggesion = await axiosPrivate.post(
-            URL.MEDICINE_URL,
+            "/search",
             {
-                problem: value.problem,
+                "problem": value.problem,
             },
             {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
                 withCredentials: true,
             }
         );
@@ -67,3 +65,4 @@ export default medicineSlice.reducer;
 export const selectCurrentMedicineData = (state) => state.medicine.data;
 export const selectCurrentMedicineProblem = (state) => state.medicine.problem;
 export const selectCurrentMedicineStatus = (state) => state.medicine.status;
+export const selectCurrentMedicine = (state) => state.medicine;

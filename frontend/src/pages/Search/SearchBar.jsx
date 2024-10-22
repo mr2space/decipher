@@ -71,7 +71,7 @@ const SearchBar = () => {
     const handleSpeciesSubmit =() => {
         try {
             dispatch(detailsSpeciesText({axiosPrivate: axiosPrivate, species:input, location:null}));
-            setValue("");
+            setInput("");
             navigate(URL.SPECIES_REACT_URL, { from: location, replace: true });
         } catch (error) {
             console.log(error);

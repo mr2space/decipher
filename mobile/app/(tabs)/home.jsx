@@ -2,7 +2,8 @@ import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState } from "react";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import useAxiosPrivate from "../../hook/useAxiosPrivate";
 import {
   selectCurrentCredit,
   selectCurrentUser,
@@ -16,7 +17,7 @@ import SearchInput from "../../components/SearchInput";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FilePicker from "../../components/FilePicker";
 import { Redirect, router } from "expo-router";
-import { selectCurrentData } from "../../scripts/speciesSlice";
+import { selectCurrentData, selectCurrentSpeciesStatus, selectCurrentSpecies, selectSpecies} from "../../scripts/speciesSlice";
 
 const Home = () => {
   const user = useSelector(selectCurrentUser);
@@ -38,6 +39,42 @@ const Home = () => {
     }
     fn(1);
   };
+
+  const dispatch = useDispatch();
+  const axiosPrivate = useAxiosPrivate();
+  const status = useSelector(selectCurrentSpeciesStatus);
+  const species = useSelector(selectCurrentSpecies)
+  const {error} = useSelector(selectSpecies);
+  
+  const openPickerAndUpload = async () => {
+    const result = await DocumentPicker.getDocumentAsync({
+      type: ["image/jpg", "image/jpeg"],
+      multiple:false,
+      copyToCacheDirectory: true,
+    });
+
+    if (!result.canceled) {
+      const photo =  result.assets[0]
+      const formData = new FormData();
+      formData.append('photo', {
+        uri: photo.uri,
+        name: photo.name,
+        type: photo.mimeType || 'image/jpeg', // Fallback to image/jpeg
+      });
+      
+      await dispatch(
+        photoSpeciesScan({ axiosPrivate: axiosPrivate, formData: formData })
+      );
+      // if (species != null && status === "success"){
+      photo = null;
+        router.push(`/search/${species}`);
+      // }
+    } else {
+      setTimeout(() => {
+        Alert.alert("Document picked", JSON.stringify(result, null, 2));
+      }, 1000);
+    }}
+
   const handleCameraPress = () => {
     console.log("home:-", "pressed camera");
     return router.push("/camera")
@@ -108,7 +145,7 @@ const Home = () => {
               <Ionicons name="camera-outline" size={24} color="black" />
             </TouchableOpacity>
 
-            <FilePicker />
+            <FilePicker onPress={openPickerAndUpload} status={status} />
           </View>
           <Text>
             {JSON.stringify(data)}
@@ -119,4 +156,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Home

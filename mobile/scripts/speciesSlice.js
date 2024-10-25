@@ -10,7 +10,7 @@ export const detailsSpeciesText = createAsyncThunk(
             throw new Error("require to pass axiosPrivate Element");
         }
         const detailResponse = await axiosPrivate.post(
-            URL.SPECIES_SEARCH_URL,
+            URL.MEDICINE_URL,
             { species: value?.species },
             {
                 withCredentials: true,
@@ -43,6 +43,7 @@ export const photoSpeciesScan = createAsyncThunk(
     async (value) => {
         const axiosPrivate = value.axiosPrivate;
         const formData = value.formData;
+        console.log("speciesSlice formData", value.formData);
         const speciesResponse = await axiosPrivate.post("/upload", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
@@ -50,30 +51,29 @@ export const photoSpeciesScan = createAsyncThunk(
             withCredentials:true
         });
         speciesResponse.data = speciesResponse.data.data;
-        const detailResponse = await axiosPrivate.get(
-            URL.SPECIES_SEARCH_URL,
+        const detailResponse = await axiosPrivate.post(
+            URL.MEDICINE_URL,
+            { species: speciesResponse.data.species[1] },
             {
                 withCredentials: true,
-                params: { species: speciesResponse.data.species[1] },
             }
         );
-        console.log(detailResponse)
         const locationResponse = await axiosPrivate.get(
             URL.LOCATION_SEARCH_URL,
             {
                 params: {
                     species: speciesResponse.data.species[1],
                 },
-            },
-            {
-                withCredentials: true,
             }
         );
         locationResponse.data = locationResponse.data?.data;
         detailResponse.data = detailResponse.data?.data;
+        console.log("species-slice", locationResponse.data);
+        
         return {
             species: speciesResponse.data.species[1],
-            data: [...detailResponse.data, speciesResponse.data.score],
+            data: detailResponse.data,
+            score:speciesResponse.data.score,
             locations: locationResponse.data,
             photoURL: speciesResponse.data?.photoURL,
         };
@@ -86,6 +86,7 @@ const speciesSlice = createSlice({
         data: null,
         species: null,
         status: "idle",
+        score:null,
         locations: null,
         photoURL: null,
         error: null,
@@ -118,6 +119,7 @@ const speciesSlice = createSlice({
             })
             .addCase(photoSpeciesScan.fulfilled, (state, action) => {
                 state.status = "success";
+                state.score = action.payload.score;
                 state.data = action.payload.data;
                 state.species = action.payload.species;
                 state.locations = action.payload.locations;
@@ -138,3 +140,4 @@ export const selectCurrentData = (state) => state.species.data;
 export const selectCurrentSpecies = (state) => state.species.species;
 export const selectCurrentSpeciesStatus = (state) => state.species.status;
 export const selectSpecies = (state) => state.species;
+

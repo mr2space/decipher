@@ -22,7 +22,7 @@ const AppSection = () => {
                                     }}>
                     <div className="image_box w-full h-4/5 rounded-b-full rounded-tr-[70em] rounded-tl-full bg-primary-100 overflow-hidden">
                         <img
-                            src={Images.plant2}
+                            src={Images.plant5}
                             alt="plant image"
                             className="w-full h-full object-cover"
                         />

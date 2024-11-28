@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { components } from "../../components";
 import { Images, Vectors } from "../../assets";
 import { FaCanadianMapleLeaf } from "react-icons/fa6";
@@ -8,12 +8,18 @@ import HomeSearch from "../../components/Search/HomeSearch";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { URL } from "../../data";
+import toast from "react-hot-toast";
 
 const HomeSection = () => {
     const user = useSelector(selectCurrentUser);
+
+    useEffect(() => {
+        toast.error("The site is still in development and contains bugs!");
+    }, []);
+
     return (
         <>
-            <section className=" w-full h-screen overflow-y-hidden flex flex-col gap-10 justify-center items-center z-10 font-poppins">
+            <section className="w-full h-screen overflow-y-hidden flex flex-col gap-10 justify-center items-center z-10 font-poppins">
                 <div className="wrapper mt-[80px] h-full w-full">
                     <div className="flex flex-row items-center justify-between w-full px-24 h-full ">
                         <div className="left__box w-3/4 h-full flex flex-col justify-evenly items-start">
@@ -39,7 +45,7 @@ const HomeSection = () => {
                                                 bottom: 0,
                                             }}
                                             src={Vectors.plant1}
-                                            className=" inline-block ml-5 cursor-grab"
+                                            className="inline-block ml-5 cursor-grab"
                                             alt="plant vector"
                                         />
                                     </div>
@@ -158,8 +164,8 @@ const HomeSection = () => {
                     className="absolute w-full h-full -z-10"
                 >
                     <motion.div
-                        initial={{ width: "400px", height: "400px" }} // Tailwind's bg-red-400
-                        animate={{ width: "300px", height: "300px" }} // Tailwind's bg-green-400
+                        initial={{ width: "400px", height: "400px" }}
+                        animate={{ width: "300px", height: "300px" }}
                         transition={{
                             duration: 5,
                             ease: "easeInOut",
@@ -170,8 +176,8 @@ const HomeSection = () => {
                         className="Bg_yellow bg-secondary-200 absolute top-[12%] w-[400px] h-[400px] blur-[100px] left-[-100px] -z-10"
                     ></motion.div>
                     <motion.div
-                        initial={{ width: "200px", height: "200px" }} // Tailwind's bg-red-400
-                        animate={{ width: "100px", height: "100px" }} // Tailwind's bg-green-400
+                        initial={{ width: "200px", height: "200px" }}
+                        animate={{ width: "100px", height: "100px" }}
                         transition={{
                             duration: 5,
                             ease: "easeInOut",
@@ -182,7 +188,6 @@ const HomeSection = () => {
                         className="Bg_yellow bg-secondary-500 absolute top-[18%]  w-[200px] h-[200px] left-[-150px] blur-[80px] -z-10"
                     ></motion.div>
                 </motion.div>
-                {/* <components.LoadingTip /> */}
             </section>
         </>
     );

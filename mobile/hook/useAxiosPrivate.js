@@ -9,9 +9,7 @@ const useAxiosPrivate = () => {
     const auth = useSelector(selectCurrentUser);
     const accessToken = useSelector(selectCurrentAccessToken);
     let refresh = null
-    if (!auth){
         refresh = useDispatch(refreshTheToken({}));
-    }
 
     useEffect(() => {
         const requestIntercept = axiosPrivate.interceptors.request.use(

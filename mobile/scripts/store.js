@@ -3,6 +3,7 @@ import authReducer from "./authSlice";
 import speciesSlice from "./speciesSlice"
 import loadingSlice from "./loadingSlice"
 import medicineSlice from "./medicineSlice"
+import devToolsEnhancer from 'redux-devtools-expo-dev-plugin';
 
 export const store = configureStore({
     reducer:{
@@ -11,5 +12,6 @@ export const store = configureStore({
         medicine: medicineSlice,
         loading: loadingSlice
     },
-    devTools: true
+    devTools: false,
+    enhancers: getDefaultEnhancers => getDefaultEnhancers().concat(devToolsEnhancer()),
 });

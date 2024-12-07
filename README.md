@@ -35,3 +35,13 @@ A web and mobile application that determines the plant species based on photos a
 
 # ML Flow
 ![Logo](https://portfoliodownloads.s3.amazonaws.com/sanjeevani/Screenshot+(499).png)
+
+
+
+#DOCKER BUILD COMMAND
+
+docker build . -t backend                                                                         
+
+docker run -d --env-file ./backend/.env -p 7000:7000 -p 5173:5173 --name backend-container backend
+
+

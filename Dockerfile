@@ -21,7 +21,7 @@ RUN npm install
 COPY ./frontend .
 
 # Expose required ports
-EXPOSE 3000 5173
+EXPOSE 7000 5173
 
 # Start both backend and frontend processes
 WORKDIR /home

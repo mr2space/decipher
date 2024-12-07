@@ -57,6 +57,5 @@ app.listen(PORT, (err) => {
         logger.error(`Error starting server: ${err}`);
     } else {
         logger.info(`Server running on port ${PORT}`);
-        console.log(`Server running on port ${PORT}`);
     }
 });

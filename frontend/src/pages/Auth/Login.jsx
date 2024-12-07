@@ -77,7 +77,7 @@ const Login = () => {
 
     const oauthHandler = (e) => {
         e.preventDefault();
-        window.location.href = "http://127.0.0.1:7000/auth/oauth";
+        window.location.href = `${URL.BASE_URL}${URL.OAUTH_URL}`;
     };
 
     return (

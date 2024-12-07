@@ -74,9 +74,11 @@ const HomeSection = () => {
                                                     </components.GreenButton>
                                                 </Link>
 
+                                                <Link to={URL.DOC_URL} target="_blank">
                                                 <components.TransparentButton>
                                                     Docs
                                                 </components.TransparentButton>
+                                                </Link>
                                             </>
                                         )}
                                     </div>

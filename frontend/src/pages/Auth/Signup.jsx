@@ -112,7 +112,7 @@ function Signup() {
 
         try {
             const res = await axios.post(
-                "http://127.0.0.1:7000/auth/register",
+                `${URL.BASE_URL}${URL.SIGNUP_URL}`,
                 user,
                 {
                     headers: {
@@ -144,7 +144,7 @@ function Signup() {
 
     const oauthHandler = (e) => {
         e.preventDefault();
-        window.location.href = "http://127.0.0.1:7000/auth/oauth";
+        window.location.href = `${URL.BASE_URL}${URL.OAUTH_URL}`;
     };
 
     return (

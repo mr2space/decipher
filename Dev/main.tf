@@ -8,44 +8,40 @@ provider "aws" {
 }
 
 resource "aws_ecs_cluster" "sanjeevani_cluster" {
-  name = "sanjeevani_cluster" 
+  name = "sanjeevani_cluster"
 }
 
 resource "aws_ecs_task_definition" "app_task" {
   family                   = "app-first-task" # Name your task
-  
-  container_definitions    = <<DEFINITION
-  [
-    {
-      "name": "app-first-task",
-      "image": "463470946589.dkr.ecr.us-east-1.amazonaws.com/sanjeevani/backend:latest",
-      "essential": true,
-      "portMappings": [
-        {
-          "containerPort": 7000,
-          "hostPort": 7000
-        },
-        {
-        "containerPort": 5173,
-        "hostPort": 5173
-        }
-      ],
-      "memory": 512,
-      "cpu": 256,
-      "environment" : [
-        for key, value in local.env_vars : {
-          "name"  = key
-          "value" = value
-        }
-      ]
-    }
-  ]
-  DEFINITION
-  
-  requires_compatibilities = ["FARGATE"] # use Fargate as the launch type
-  network_mode             = "awsvpc"    # add the AWS VPN network mode as this is required for Fargate
-  memory                   = 512         # Specify the memory the container requires
-  cpu                      = 256         # Specify the CPU the container requires
+
+  container_definitions = jsonencode([{
+    name        = "app-first-task"
+    image       = local.repository_url
+    essential   = true
+    portMappings = [
+      {
+        containerPort = 7000
+        hostPort      = 7000
+      },
+      {
+        containerPort = 5173
+        hostPort      = 5173
+      }
+    ]
+    memory      = 512
+    cpu         = 256
+    environment = [
+      for key, value in local.env_vars : {
+        name  = key
+        value = value
+      }
+    ]
+  }])
+
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  memory                   = 512
+  cpu                      = 256
   execution_role_arn       = aws_iam_role.ecsTaskExecutionRole.arn
 }
 
@@ -66,7 +62,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "ecsTaskExecutionRole_policy" {
-  role       = "${aws_iam_role.ecsTaskExecutionRole.name}"
+  role       = aws_iam_role.ecsTaskExecutionRole.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
@@ -84,24 +80,23 @@ resource "aws_security_group" "ecs_task_security_group" {
     from_port   = 7000
     to_port     = 7000
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Allows access to port 7000 from anywhere
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
     from_port   = 5173
     to_port     = 5173
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Allows access to port 5173 from anywhere
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"] # Allows all outbound traffic
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
 
 resource "aws_ecs_service" "sanjeevani_service" {
   name            = "sanjeevani-service"
@@ -115,4 +110,16 @@ resource "aws_ecs_service" "sanjeevani_service" {
     security_groups = [aws_security_group.ecs_task_security_group.id]
     assign_public_ip = true
   }
+}
+
+resource "aws_route53_zone" "main" {
+  name = "mrprincegoswami.in" # Replace with your domain name
+}
+
+resource "aws_route53_record" "app_record" {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = "sanjeevani.mrprincegoswami.in" # Replace with your subdomain name
+  type    = "A"
+  ttl     = 60
+  records = [aws_ecs_service.sanjeevani_service.network_configuration[0].assign_public_ip ? "ECS_PUBLIC_IP" : ""] # Replace with the public IP of the container if available
 }

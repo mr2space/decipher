@@ -10,7 +10,6 @@ import {
 } from "../controllers/user.controller.js";
 import { authenticate } from "../middleware/auth.middleware.js";
 import passport from "passport";
-import jwt from "jsonwebtoken";
 
 const router = express.Router();
 

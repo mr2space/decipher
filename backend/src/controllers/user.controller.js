@@ -311,7 +311,7 @@ const googleOAuthCallback = asyncHandler(async (req, res) => {
         // Redirect to frontend with OAuth success and user data
         return res.redirect(
             `http://localhost:5173/?oauthSuccess=true&accessToken=${accessToken}&user=${encodeURIComponent(JSON.stringify(loggedUser))}`
-        );
+        );// ! incorrect redirect 
     } catch (error) {
         throw new ApiError(401, error?.message || "Unauthorized access");
     }

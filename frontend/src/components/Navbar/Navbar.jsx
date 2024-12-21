@@ -19,7 +19,6 @@ const Alink = ({ text, url }) => {
 
 const Links = () => {
     let credit = useSelector(selectCurrentCredit);
-    const [localCount, setLocalCount] = useState(credit);
     return (
         <div className="font-medium flex gap-10 items-center">
             {NavbarURL.map(({ url, text }) => (
@@ -82,5 +81,7 @@ const Navbar = () => {
         </div>
     );
 };
+
+
 export { Links, LogoText };
 export default Navbar;

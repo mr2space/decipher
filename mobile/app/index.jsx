@@ -29,7 +29,7 @@ const App = () => {
     return ()=>(isMounted=false);
   }, [])
 
-  if (user){
+  if (!user){
     return <Redirect href="/home" />
   }
   return (
@@ -50,7 +50,7 @@ const App = () => {
 
           <CustomButton
             title="Continue with Email"
-            handlePress={() => router.push("/sign-in")}
+            handlePress={() => router.push("/home")}
             containerStyles="w-full py-3 mt-10 bg-primary-400"
             textStyles="text-whitegray"
           />

@@ -144,7 +144,7 @@ const Login = () => {
                                 <div className="border-t-2 w-1/3 mt-2 ml-4"></div>
                             </div>
                             <button
-                                className="border-2 border-gray-600 h-12 w-full mt-4 rounded-xl bg-red-600 flex items-center justify-center gap-2 text-white hover:bg-red-700"
+                                className="border-2 border-gray-600 h-12 w-full mt-4 rounded-xl bg-gray-700 flex items-center justify-center gap-2 text-white hover:bg-gray-800 "
                                 onClick={oauthHandler}
                             >
                                 <img

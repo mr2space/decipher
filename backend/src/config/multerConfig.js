@@ -3,6 +3,7 @@ import multerS3 from 'multer-s3';
 import { S3Client } from '@aws-sdk/client-s3';
 import path from 'path';
 import { configDotenv } from 'dotenv';
+import {logger} from "../../logger.js";
 
 configDotenv();
 
@@ -32,6 +33,7 @@ const upload = multer({
       if (mimetype && extname) {
         return cb(null, true);
       } else {
+        logger.error(`invalid file upload by user ${(req.user || "-unlogined" )}`)
         cb(new Error('Only JPEG, JPG, and PNG files are allowed!'));
       }
     }

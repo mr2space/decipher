@@ -96,6 +96,7 @@ const allLocation = asyncHandler(async (req, res) => {
 
 const speciesLocation = asyncHandler(async (req, res) => {
     if (!req.query.species) {
+        logger.error(`invalid field by user ${req.user || "-unlogined"} at speciesLocation module`);
         throw new ApiError(422, "species field is required");
     }
     try {

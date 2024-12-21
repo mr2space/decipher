@@ -31,7 +31,7 @@ const TabIcon = ({ inactive_icon, active_icon, color, name, focused }) => {
 const TabLayout = () => {
   const user = useSelector(selectCurrentUser);
   const status = useSelector(selectCurrentStatus);
-  if (!user) return <Redirect href="/sign-in" />;
+  if (user) return <Redirect href="/sign-in" />;
   const loading = status === "loading";
   return (
     <>

@@ -20,12 +20,8 @@ router.route("/oauth").get(
         scope: ["email", "profile"],
     })
 );
-router
-    .route("/oauth/callback")
-    .get(
-        passport.authenticate("google", { session: false }),
-        googleOAuthCallback
-    );
+
+router.route("/google/oauth/callback").post(googleOAuthCallback);
 
 // secure route
 router.route("/logout").get(authenticate, logoutUser);

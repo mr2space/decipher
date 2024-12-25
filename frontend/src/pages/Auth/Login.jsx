@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { setCredentials } from "../../utils/authSlice";
 import { Icons, Images } from "../../assets";
 import toast from "react-hot-toast";
+import OAuthGoogle from "../../components/Auth/OAuthGoogle";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -143,17 +144,7 @@ const Login = () => {
                                 <div className="text-sm">Or login with</div>
                                 <div className="border-t-2 w-1/3 mt-2 ml-4"></div>
                             </div>
-                            <button
-                                className="border-2 border-gray-600 h-12 w-full mt-4 rounded-xl bg-gray-700 flex items-center justify-center gap-2 text-white hover:bg-gray-800 "
-                                onClick={oauthHandler}
-                            >
-                                <img
-                                    src={Icons.icon1}
-                                    alt="Error"
-                                    className="h-5"
-                                />
-                                <span>Google</span>
-                            </button>
+                            <OAuthGoogle />
                         </div>
                     </div>
                 </div>

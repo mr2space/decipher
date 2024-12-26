@@ -1,6 +1,8 @@
+const BASE_URL = "http://localhost:80";
+
 const URL = {
     LOGIN_URL : "/auth/login",
-    GOOGLE_OAUTH_CALLBACK_URL: "/auth/oauth", // todo: change this to /auth/google/callback
+    GOOGLE_OAUTH_CALLBACK_URL:"/auth/google/oauth/callback", // todo: change this to /auth/google/callback
     SIGNUP_URL: "/auth/register",
     HOME_URL : "/",
     BASE_URL : "http://localhost:80",

@@ -3,7 +3,6 @@ import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { useDispatch } from "react-redux";
 import { googleOAuthAsync } from "../../utils/authSlice";
 import toast from "react-hot-toast";
-
 import { useNavigate } from "react-router-dom";
 
 const OAuthGoogle = () => {
@@ -16,7 +15,7 @@ const OAuthGoogle = () => {
         "996406063341-u17i5ik0loncqnbi4visjdt7kqk3fja6.apps.googleusercontent.com";
     const handleClick = (googleToken) => {
         dispatch(googleOAuthAsync(googleToken));
-        console.log(googleToken);
+        // console.log(googleToken);
         navigate("/");
     };
     return (
@@ -28,6 +27,7 @@ const OAuthGoogle = () => {
                 onError={() => {
                     toast.error("Error in login via Google");
                 }}
+                scope="email profile"
             />
         </GoogleOAuthProvider>
     );

@@ -1,6 +1,8 @@
 import React from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
+import ErrorBoundary from "../Error/ErrorComponent";
+
 // Style for the container
 const containerStyle = {
     width: "100%",
@@ -24,21 +26,20 @@ const fixedLocations = [
 
 const MyGoogleMap = () => {
     return (
-        <LoadScript googleMapsApiKey="AIzaSyAQI1u2JMmcusZaJZCq29mv7a4YT9wiLLY">
-            <GoogleMap
-                mapContainerStyle={containerStyle}
-                center={center}
-                zoom={11}
-            > 
-                {/* Render fixed markers */}
-                {fixedLocations.map((location, index) => (
-                    <Marker
-                        key={index}
-                        position={location}  
-                    />
-                ))}
-            </GoogleMap>
-        </LoadScript>
+        <ErrorBoundary>
+            <LoadScript googleMapsApiKey="AIzaSyA-NfCEvbVFm-1DF-27RrOqNZelmaH6SdQ">
+                <GoogleMap
+                    mapContainerStyle={containerStyle}
+                    center={center}
+                    zoom={11}
+                >
+                    {/* Render fixed markers */}
+                    {fixedLocations.map((location, index) => (
+                        <Marker key={index} position={location} />
+                    ))}
+                </GoogleMap>
+            </LoadScript>
+        </ErrorBoundary>
     );
 };
 

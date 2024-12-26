@@ -8,7 +8,6 @@ import { ApiResponse } from "../Utils/ApiResponse.js";
 
 import { OAuth2Client } from "google-auth-library";
 
-
 const generateAccessAndRefereshTokens = async (userId) => {
     try {
         const user = await User.findById(userId);
@@ -272,7 +271,7 @@ const googleOAuthCallback = asyncHandler(async (req, res) => {
         const payload = ticket.getPayload();
         const { sub, email, name, picture, gender } = payload;
 
-        user = await User.findOne({ googleId: sub });
+        user = await User.findOne({ email: email });
 
         if (!user) {
             // 03. Create a new user record if not exist

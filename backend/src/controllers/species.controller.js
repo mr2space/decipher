@@ -70,11 +70,12 @@ const speciesPhotoHandler = asyncHandler(async (req, res) => {
         logger.info(req.body.location);
         payload.location = await saveLocation(
             position,
-            payload.species[1].toLowerCase(),
+            payload.species[0].toLowerCase(),
             req.user._id
         ); // [longitude, latitude]
         payload.location.save();
     }
+    logger.info(JSON.stringify(payload));
     res.status(200).json(
         new ApiResponse(200, payload, "photo scan successfully")
     );

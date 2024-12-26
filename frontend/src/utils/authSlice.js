@@ -48,7 +48,7 @@ const authSlice = createSlice({
             .addCase(googleOAuthAsync.fulfilled, (state, action) => {
                 state.status = "success";
                 state.user = action.payload.user;
-                state.credit = action.payload.credit;
+                state.credit = action.payload.user.credit;
                 state.accessToken = action.payload.accessToken;
                 state.refreshToken = action.payload.refreshToken;
             })

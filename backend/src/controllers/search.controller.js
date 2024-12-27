@@ -15,6 +15,7 @@ const medicineSuggestion = async (problem) => {
         const response = await GenAiMedicineSuggestion(prompt_text);
         return response;
     } catch (error) {
+        logger.error(`Something went wrong in medicine suggestion by user ${req.user.email || "-unlogined"} at medicineSuggestion module error: ${error.message}`);
         throw new ApiError(
             500,
             error.message || "Something went wrong in medicine suggestion",
@@ -33,7 +34,8 @@ const speciesQuality = async (species) => {
         const response = await GenAiMedicineSuggestion(prompt_text);
         return response;
     } catch (error) {
-        console.log(error);        
+        console.log(error);       
+        logger.error(`Something went wrong in species quality by user ${req.user.email || "-unlogined"} at speciesQuality module error: ${error.message}`); 
         throw new ApiError(
             500,
             error.message || "something went wrong in species quality",
@@ -46,6 +48,7 @@ const speciesQuality = async (species) => {
 const searchController = asyncHandler(async (req, res) => {
     let user = await User.findById(req.user._id);
     if (!user.isCreditForSearch()) {
+        logger.error(`Not Enough Credit for searching by user ${req.user.email || "-unlogined"}`);
         throw new ApiError(403, "Not Enough Credit for searching");
     }
     let response = {};
@@ -54,6 +57,7 @@ const searchController = asyncHandler(async (req, res) => {
     } else if (req.body.problem) {
         response = await medicineSuggestion(req.body.problem);
     } else {
+        logger.error(`Species or Problem field not found by user ${req.user.email || "-unloginded"}`);
         throw new ApiError(400, "Species or Problem field not found");
     }
     try {
@@ -62,6 +66,7 @@ const searchController = asyncHandler(async (req, res) => {
         res.status(200).json(new ApiResponse(200, response, "Gemini Response"));
     } catch (error) {
         console.log(error);
+        logger.error(`Something went wrong in search by user ${req.user.email || "-unlogined"} at searchController module error: ${error.message}`);
         throw new ApiError(
             500,
             error.message || "something went wrong in search",
@@ -74,6 +79,7 @@ const searchController = asyncHandler(async (req, res) => {
 
 const insertSampleLocation = asyncHandler(async (req, res) => {
     if (!req.body.location && !req.body.name) {
+        logger.error(`location and name is required by user ${req.user.email || "-unlogined"} at insertSampleLocation module`);
         throw new ApiError(422, "location and name is required");
     }
     let location = {
@@ -96,6 +102,7 @@ const allLocation = asyncHandler(async (req, res) => {
 
 const speciesLocation = asyncHandler(async (req, res) => {
     if (!req.query.species) {
+        logger.error(`invalid field by user ${req.user.email || "-unlogined"} at speciesLocation module`);
         throw new ApiError(422, "species field is required");
     }
     try {

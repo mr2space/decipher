@@ -4,7 +4,7 @@ import { configDotenv } from "dotenv";
 import { router as authRoute } from "./src/routes/auth.router.js";
 import { router as searchRoute } from "./src/routes/search.router.js";
 import { router as devRouter } from "./src/routes/dev.router.js";
-import {router as imageUploadRouter } from "./src/routes/image.upload.router.js"
+import { router as imageUploadRouter } from "./src/routes/image.upload.router.js";
 import { logger } from "./logger.js";
 import { mongo } from "./src/config/mongoConfig.js";
 import session from "express-session";
@@ -22,14 +22,14 @@ configDotenv();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-app.use(cors(
-    {
-        origin:process.env.CORS_ORIGIN,
-        credentials:true,
-        sameSite: 'None',
-        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    }
-))
+app.use(
+    cors({
+        origin: process.env.CORS_ORIGIN,
+        credentials: true,
+        sameSite: "Strict",
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    })
+);
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,7 +49,7 @@ passport.serializeUser(googleSerialize);
 passport.deserializeUser(googleDeserialize);
 app.use("/auth", authRoute);
 app.use("/search", searchRoute);
-app.use("/upload", imageUploadRouter)
+app.use("/upload", imageUploadRouter);
 app.use("/dev", devRouter);
 mongo();
 app.listen(PORT, (err) => {

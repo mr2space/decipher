@@ -7,6 +7,9 @@ import { URL } from "../../data";
 import { Images, Icons } from "../../assets";
 import { motion } from "framer-motion";
 
+import OAuthGoogle from "../../components/Auth/OAuthGoogle";
+
+
 function Signup() {
     const [user, setUser] = useState({
         fullname: "",
@@ -302,17 +305,7 @@ function Signup() {
                             <div className=" text-sm">Or register with</div>
                             <div className=" border-t-2 w-1/3 mt-2 ml-3"></div>
                         </div>
-                        <button
-                            className="border-2 border-gray-600 h-12 w-full mt-4 rounded-xl bg-red-600 flex items-center justify-center gap-2 text-white hover:bg-red-700"
-                            onClick={oauthHandler}
-                        >
-                            <img
-                                src={Icons.icon1}
-                                alt="Error"
-                                className="h-5"
-                            />
-                            <span>Google</span>
-                        </button>
+                        <OAuthGoogle />
                     </div>
                 </div>
             </div>

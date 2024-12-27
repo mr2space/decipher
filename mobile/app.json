@@ -19,9 +19,9 @@
       "supportsTablet": true
     },
     "android": {
-      "config":{
-        "googleMaps":{
-          "apiKey":"AIzaSyAQI1u2JMmcusZaJZCq29mv7a4YT9wiLLY"
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAQI1u2JMmcusZaJZCq29mv7a4YT9wiLLY"
         }
       },
       "adaptiveIcon": {
@@ -37,7 +37,8 @@
     },
     "plugins": [
       "expo-router",
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true

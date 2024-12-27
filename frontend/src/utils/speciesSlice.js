@@ -47,22 +47,22 @@ export const photoSpeciesScan = createAsyncThunk(
             headers: {
                 "Content-Type": "multipart/form-data",
             },
-            withCredentials:true
+            withCredentials: true,
         });
         speciesResponse.data = speciesResponse.data.data;
         const detailResponse = await axiosPrivate.post(
             URL.SPECIES_SEARCH_URL,
-            { species: speciesResponse.data.species[1] },
+            { species: speciesResponse.data.species[0] },
             {
                 withCredentials: true,
             }
         );
-        console.log(detailResponse)
+        console.log(detailResponse);
         const locationResponse = await axiosPrivate.get(
             URL.LOCATION_SEARCH_URL,
             {
                 params: {
-                    species: speciesResponse.data.species[1],
+                    species: speciesResponse.data.species[0],
                 },
             },
             {
@@ -73,9 +73,9 @@ export const photoSpeciesScan = createAsyncThunk(
         locationResponse.data = locationResponse.data?.data;
         detailResponse.data = detailResponse.data?.data;
         return {
-            species: speciesResponse.data.species[1],
+            species: speciesResponse.data.species[0],
             data: detailResponse.data,
-            score:speciesResponse.data.score,
+            score: speciesResponse.data.score,
             locations: locationResponse.data,
             photoURL: speciesResponse.data?.photoURL,
         };
@@ -88,7 +88,7 @@ const speciesSlice = createSlice({
         data: null,
         species: null,
         status: "idle",
-        score:null,
+        score: null,
         locations: null,
         photoURL: null,
         error: null,
@@ -107,7 +107,7 @@ const speciesSlice = createSlice({
             })
             .addCase(detailsSpeciesText.fulfilled, (state, action) => {
                 state.status = "success";
-                state.score = action.payload.score
+                state.score = action.payload.score;
                 state.data = action.payload.data;
                 state.species = action.payload.species;
                 state.locations = action.payload.locations;

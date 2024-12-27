@@ -6,6 +6,8 @@ import { asyncHandler } from "../Utils/asyncHandler.js";
 import { ApiError } from "../Utils/ApiError.js";
 import { ApiResponse } from "../Utils/ApiResponse.js";
 
+import { OAuth2Client } from "google-auth-library";
+
 const generateAccessAndRefereshTokens = async (userId) => {
     try {
         const user = await User.findById(userId);
@@ -67,27 +69,32 @@ const registerUser = asyncHandler(async (req, res) => {
 
     // const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = new User({
-    username: username.toLowerCase(),
-    password,
-    fullname,
-    gender,
-    email,
-    phone,
-    geolocation,
-    avatar: gender === "male" ? maleProfilePhoto : femaleProfilePhoto,
-    loginType: 1,
-  });
-  await user.save();
-  const createdUser = await User.findById(user._id).select(
-    "-password -refreshToken"
-  )
-  if (!createdUser) {
-    throw new ApiError(500, "Something went wrong while registering the user")
-  }
-  return res.status(201).json(
-    new ApiResponse(200, createdUser, "User registered Successfully")
-  )
+    const user = new User({
+        username: username.toLowerCase(),
+        password,
+        fullname,
+        gender,
+        email,
+        phone,
+        geolocation,
+        avatar: gender === "male" ? maleProfilePhoto : femaleProfilePhoto,
+        loginType: 1,
+    });
+    await user.save();
+    const createdUser = await User.findById(user._id).select(
+        "-password -refreshToken"
+    );
+    if (!createdUser) {
+        throw new ApiError(
+            500,
+            "Something went wrong while registering the user"
+        );
+    }
+    return res
+        .status(201)
+        .json(
+            new ApiResponse(200, createdUser, "User registered Successfully")
+        );
 });
 
 const loginUser = asyncHandler(async (req, res) => {
@@ -193,7 +200,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
             secure: true,
         };
 
-        const { accessToken , refreshToken} =
+        const { accessToken, refreshToken } =
             await generateAccessAndRefereshTokens(user._id);
 
         return res
@@ -203,7 +210,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
             .json(
                 new ApiResponse(
                     200,
-                    { accessToken, refreshToken: refreshToken, user : user },
+                    { accessToken, refreshToken: refreshToken, user: user },
                     "Access token refreshed"
                 )
             );
@@ -243,56 +250,54 @@ const profile = asyncHandler(async (req, res) => {
         throw new ApiError(401, error?.message || "unauthorized user");
     }
 });
-
-// const googleOAuthCallback = asyncHandler(async (req, res) => {
-//     try {
-//         const user = await User.findOne({
-//             $or: [{ username: req.user?.username }, { email: req.user?.email }],
-//         });
-//         if (!user) {
-//             throw new ApiError(401, "user invalid or UnAuthorized");
-//         }
-//         const { accessToken, refreshToken } =
-//             await generateAccessAndRefereshTokens(user._id);
-//         const loggedUser = await User.findById(user._id).select(
-//             "-password -refreshToken -loginType"
-//         );
-//         const options = {
-//             httpOnly: true,
-//             secure: true,
-//         };
-//         return res
-//             .status(200)
-//             .cookie("accessToken", accessToken, options)
-//             .cookie("refreshToken", refreshToken, options)
-//             .json(
-//                 new ApiResponse(
-//                     200,
-//                     {
-//                         user: loggedUser,
-//                         accessToken,
-//                         refreshToken,
-//                     },
-//                     "User logged In Successfully"
-//                 )
-//             );
-//     } catch (error) {
-//         throw new ApiError(401, error?.message || "unauthorized access");
-//     }
-// });
-
 const googleOAuthCallback = asyncHandler(async (req, res) => {
+    const token = req.body.token;
+    const redirectUrl = `http://localhost:5173/`;
+    logger.info("Google OAuth Callback");
+    if (!token) {
+        throw new ApiError(401, "Unauthorized access");
+    }
+    let user = null;
     try {
-        const user = await User.findOne({
-            $or: [{ username: req.user?.username }, { email: req.user?.email }],
+        const client = new OAuth2Client(
+            process.env.GOOGLE_CLIENT_ID,
+            process.env.GOOGLE_CLIENT_SECRET,
+            redirectUrl
+        );
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID,
         });
+        const payload = ticket.getPayload();
+        const { sub, email, name, picture, gender } = payload;
 
+        user = await User.findOne({ email: email });
+
+        if (!user) {
+            // 03. Create a new user record if not exist
+            user = new User({
+                username: sub,
+                email,
+                fullname: name,
+                avatar: picture,
+                gender: gender || "M",
+                loginType: 0,
+                password: "no_password_set" + sub,
+            });
+            await user.save();
+        }
+    } catch (error) {
+        throw new ApiError(401, error?.message || "Unauthorized access");
+    }
+
+    try {
         if (!user) {
             throw new ApiError(401, "User invalid or UnAuthorized");
         }
 
         // Generate tokens
-        const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(user._id);
+        const { accessToken, refreshToken } =
+            await generateAccessAndRefereshTokens(user._id);
 
         // Get the user data excluding sensitive fields
         const loggedUser = await User.findById(user._id).select(
@@ -306,17 +311,22 @@ const googleOAuthCallback = asyncHandler(async (req, res) => {
 
         // Set cookies
         res.cookie("accessToken", accessToken, options)
-           .cookie("refreshToken", refreshToken, options);
-
-        // Redirect to frontend with OAuth success and user data
-        return res.redirect(
-            `http://localhost:5173/?oauthSuccess=true&accessToken=${accessToken}&user=${encodeURIComponent(JSON.stringify(loggedUser))}`
-        );
+            .cookie("refreshToken", refreshToken, options)
+            .json(
+                new ApiResponse(
+                    200,
+                    {
+                        user: loggedUser,
+                        accessToken,
+                        refreshToken,
+                    },
+                    "User logged In Successfully"
+                )
+            );
     } catch (error) {
         throw new ApiError(401, error?.message || "Unauthorized access");
     }
 });
-
 
 export {
     registerUser,

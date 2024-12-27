@@ -10,7 +10,6 @@ import {
 } from "../controllers/user.controller.js";
 import { authenticate } from "../middleware/auth.middleware.js";
 import passport from "passport";
-import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
@@ -21,12 +20,8 @@ router.route("/oauth").get(
         scope: ["email", "profile"],
     })
 );
-router
-    .route("/oauth/callback")
-    .get(
-        passport.authenticate("google", { session: false }),
-        googleOAuthCallback
-    );
+
+router.route("/google/oauth/callback").post(googleOAuthCallback);
 
 // secure route
 router.route("/logout").get(authenticate, logoutUser);

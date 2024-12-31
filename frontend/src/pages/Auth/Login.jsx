@@ -10,6 +10,8 @@ import { Icons, Images } from "../../assets";
 import toast from "react-hot-toast";
 import OAuthGoogle from "../../components/Auth/OAuthGoogle";
 
+import FormPage from "../../components/Auth/FormPage";
+
 const Login = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -83,72 +85,56 @@ const Login = () => {
 
     return (
         <>
-            <section className="min-h-screen py-24 bg-whitegray">
-            
-                <div className="container mx-auto">
-                    <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-2xl overflow-hidden">
-                        <div className="w-full lg:w-1/2 flex flex-col items-center justify-center py-8 bg-no-repeat">
-                            <div className="flex h-25 ml-3.5">
-                                <img
-                                    src={Images.plant3}
-                                    className="inline-block ml-1 rounded-lg"
-                                    alt="plant vector"
-                                />
-                            </div>
-                        </div>
-                        <div className="w-full lg:w-1/2 pt-16 pb-8 px-12">
-                            <h2 className="relative items-center text-center text-4xl mb-8 font-bold">
-                                Login
-                            </h2>
-                            <form
-                                onSubmit={handleSubmit}
-                                className="flex flex-col gap-7"
-                            >
-                                <div className="mt-5 -mb-4">
-                                    <input
-                                        type="text"
-                                        placeholder="username"
-                                        onChange={(event) =>
-                                            setUsername(event.target.value)
-                                        }
-                                        name="username"
-                                        className="border h-11 border-gray-400 py-1 px-2 w-full rounded-md"
-                                    />
-                                </div>
-                                <div className="mt-5">
-                                    <input
-                                        type="password"
-                                        placeholder="password"
-                                        onChange={(event) =>
-                                            setPassword(event.target.value)
-                                        }
-                                        name="password"
-                                        className="border h-11 border-gray-400 py-1 px-2 w-full rounded-md"
-                                    />
-                                </div>
-                                <div className="mt-5">
-                                    <button
-                                        type="submit"
-                                        className="w-full bg-green-600 py-3 text-center text-white rounded-xl hover:bg-green-700 mb-3"
-                                    >
-                                        Login
-                                    </button>
-                                </div>
-                            </form>
-                            <p className="text-black text-center my-2 mb-4">
-                                Do not have an account?{" "}
-                                <Link to={URL.SIGNUP_URL}>Register</Link>
-                            </p>
-                            <div className="flex">
-                                <div className="border-t-2 w-1/3 mt-2 mr-4"></div>
-                                <div className="text-sm">Or login with</div>
-                                <div className="border-t-2 w-1/3 mt-2 ml-4"></div>
-                            </div>
-                            <OAuthGoogle />
-                        </div>
+            <FormPage>
+                {/* // todo:  form area */}
+                <h2 className="relative items-center text-center text-4xl mb-8 font-bold">
+                    Login
+                </h2>
+                <form onSubmit={handleSubmit} className="flex flex-col gap-7">
+                    <div className="mt-5 -mb-4">
+                        <input
+                            type="text"
+                            placeholder="username"
+                            onChange={(event) =>
+                                setUsername(event.target.value)
+                            }
+                            name="username"
+                            className="border h-11 border-gray-400 py-1 px-2 w-full rounded-md"
+                        />
                     </div>
+                    <div className="mt-5">
+                        <input
+                            type="password"
+                            placeholder="password"
+                            onChange={(event) =>
+                                setPassword(event.target.value)
+                            }
+                            name="password"
+                            className="border h-11 border-gray-400 py-1 px-2 w-full rounded-md"
+                        />
+                    </div>
+                    <div className="mt-5">
+                        <button
+                            type="submit"
+                            className="w-full bg-green-600 py-3 text-center text-white rounded-xl hover:bg-green-700 mb-3"
+                        >
+                            Login
+                        </button>
+                    </div>
+                </form>
+                <p className="text-black text-center my-2 mb-4">
+                    Do not have an account?{" "}
+                    <Link to={URL.SIGNUP_URL} className="font-bold">Register</Link>
+                </p>
+                <div className="flex">
+                    <div className="border-t-2 w-1/3 mt-2 mr-4"></div>
+                    <div className="text-sm">Or login with</div>
+                    <div className="border-t-2 w-1/3 mt-2 ml-4"></div>
                 </div>
-            </section>
+                <OAuthGoogle />
+
+                {/* // todo:  form area end */}
+            </FormPage>
         </>
     );
 };

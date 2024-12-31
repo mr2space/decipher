@@ -5,7 +5,7 @@ import { Images } from "../../assets";
 
 import { CardsData } from "../../data/AppFeatures";
 
-const Card = ({ id, title, icon, details }) => {
+const Card = ({ id, title, icon, details, image }) => {
     return (
         <motion.div
             className=" relative w-1/4 h-[500px] overflow-hidden bg-red-400 rounded-2xl"
@@ -19,7 +19,7 @@ const Card = ({ id, title, icon, details }) => {
             }}
         >
             <img
-                src={Images.plant1}
+                src={image}
                 alt="plant 1"
                 className=" w-full h-full object-cover"
             />

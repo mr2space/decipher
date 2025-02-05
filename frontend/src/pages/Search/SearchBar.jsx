@@ -1,23 +1,13 @@
 import React, { useState } from "react";
-
-import { components } from "../../components";
-
 import { IoSearch } from "react-icons/io5";
-
 import { useSelector, useDispatch } from "react-redux";
-import {
-    selectCurrentSpecies,
-    selectSpecies,
-    detailsSpeciesText,
-} from "../../utils/speciesSlice";
+import { detailsSpeciesText } from "../../utils/speciesSlice";
 import {
     medicineSuggesion,
     selectCurrentMedicineData,
-    selectCurrentMedicineProblem,
-    selectCurrentMedicineStatus,
 } from "../../utils/medicineSlice";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { Router, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SpecialYellowBtn = ({ children, handleClick }) => {
     return (
@@ -60,7 +50,6 @@ const SearchBar = () => {
     const dispatch = useDispatch();
     const axiosPrivate = useAxiosPrivate();
     // medicinal search box
-    const medicineData = useSelector(selectCurrentMedicineData);
     const handleMedicineSuggestion = async () => {
         console.log(input);
         dispatch(medicineSuggesion({ axiosPrivate, problem: input }));
@@ -68,9 +57,15 @@ const SearchBar = () => {
         navigate(URL.SPECIES_REACT_URL, { from: location, replace: true });
     };
 
-    const handleSpeciesSubmit =() => {
+    const handleSpeciesSubmit = () => {
         try {
-            dispatch(detailsSpeciesText({axiosPrivate: axiosPrivate, species:input, location:null}));
+            dispatch(
+                detailsSpeciesText({
+                    axiosPrivate: axiosPrivate,
+                    species: input,
+                    location: null,
+                })
+            );
             setInput("");
             navigate(URL.SPECIES_REACT_URL, { from: location, replace: true });
         } catch (error) {
@@ -97,7 +92,9 @@ const SearchBar = () => {
                     Medical
                 </SpecialGreenBtn>
                 <SpecialYellowBtn>Location</SpecialYellowBtn>
-                <SpecialTransparentBtn handleClick={handleSpeciesSubmit}>Species</SpecialTransparentBtn>
+                <SpecialTransparentBtn handleClick={handleSpeciesSubmit}>
+                    Species
+                </SpecialTransparentBtn>
             </div>
         </div>
     );

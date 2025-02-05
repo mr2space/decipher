@@ -52,7 +52,7 @@ export const photoSpeciesScan = createAsyncThunk(
         speciesResponse.data = speciesResponse.data.data;
         const detailResponse = await axiosPrivate.post(
             URL.SPECIES_SEARCH_URL,
-            { species: speciesResponse.data.species[0] },
+            { species: speciesResponse.data.species[1] || speciesResponse.data.species[0] },
             {
                 withCredentials: true,
             }
@@ -62,7 +62,7 @@ export const photoSpeciesScan = createAsyncThunk(
             URL.LOCATION_SEARCH_URL,
             {
                 params: {
-                    species: speciesResponse.data.species[0],
+                    species: speciesResponse.data.species[1] || speciesResponse.data.species[0],
                 },
             },
             {
@@ -73,7 +73,7 @@ export const photoSpeciesScan = createAsyncThunk(
         locationResponse.data = locationResponse.data?.data;
         detailResponse.data = detailResponse.data?.data;
         return {
-            species: speciesResponse.data.species[0],
+            species: speciesResponse.data.species[1] || speciesResponse.data.species[0],
             data: detailResponse.data,
             score: speciesResponse.data.score,
             locations: locationResponse.data,
@@ -116,6 +116,11 @@ const speciesSlice = createSlice({
             .addCase(detailsSpeciesText.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.error.message;
+                state.score = null;
+                state.data = null;
+                state.species = null;
+                state.locations = null;
+                state.photoURL = null;
             })
             .addCase(photoSpeciesScan.pending, (state) => {
                 state.status = "loading";
@@ -131,6 +136,11 @@ const speciesSlice = createSlice({
             .addCase(photoSpeciesScan.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.error.message;
+                state.data = null;
+                state.score = null;
+                state.species = null;
+                state.locations = null;
+                state.photoURL = null;
             });
     },
 });

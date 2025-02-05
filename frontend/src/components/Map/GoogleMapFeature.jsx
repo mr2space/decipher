@@ -1,6 +1,7 @@
 import React from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
-
+import {useSelector} from "react-redux";
+import {selectSpecies} from "../../utils/speciesSlice";
 import ErrorBoundary from "../Error/ErrorComponent";
 
 // Style for the container
@@ -16,7 +17,7 @@ const center = {
 };
 
 // Fixed coordinates for markers
-const fixedLocations = [
+const fixedLocationsSample = [
     { lat: 25.508734, lng: 81.800701 }, // Point 1
     { lat: 25.511234, lng: 81.805012 }, // Point 2
     { lat: 25.506234, lng: 81.803452 }, // Point 3
@@ -25,6 +26,13 @@ const fixedLocations = [
 ];
 
 const MyGoogleMap = () => {
+    let fixedLocations = [];
+    const { status } =
+        useSelector(selectSpecies);
+    if (status === "success") {
+        fixedLocations = fixedLocationsSample;
+    }
+    
     return (
         <ErrorBoundary>
             <LoadScript googleMapsApiKey="AIzaSyA-NfCEvbVFm-1DF-27RrOqNZelmaH6SdQ">

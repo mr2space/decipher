@@ -5,7 +5,7 @@ import { selectSpecies } from "../../utils/speciesSlice";
 import LoadingSkeleton from "../../components/Loading/CardLoading";
 import TextLoading from "../../components/Loading/TextLoading";
 import { Images, Vectors } from "../../assets";
-import Footer from "../../components/Footer/Footer";
+// import Footer from "../../components/Footer/Footer";
 import GoogleMap from "../../components/Map/GoogleMapFeature";
 import { Icons } from "../../assets";
 
@@ -60,7 +60,7 @@ const ResultSection = () => {
                                     ) : status === "400" ? (
                                         "Network Error"
                                     ) : (
-                                        species || "Network Error"
+                                        species || "Improper Photo"
                                     )}
                                     <motion.img
                                         drag
@@ -108,7 +108,7 @@ const ResultSection = () => {
                                         ) : status === "400" ? (
                                             "demo"
                                         ) : (
-                                            data?.description || "N/A"
+                                            data?.description || "Make sure you upload a plant photo"
                                         )}
                                     </p>
                                 </div>
@@ -299,7 +299,7 @@ const ResultSection = () => {
                 ></motion.div>
             </section>
 
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 };

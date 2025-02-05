@@ -12,6 +12,7 @@ const URL = {
     MEDICINE_URL: "/search",
     LOCATION_SEARCH_URL : "/dev/search",
     DOC_URL: "https://github.com/mr2space/decipher/blob/stable_v1/README.md",
+    DOWNLOAD_URL: "/download",
 }
 
 

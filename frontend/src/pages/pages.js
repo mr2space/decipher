@@ -5,11 +5,14 @@ import Login from "./Auth/Login";
 import Search from "./Search/Search";
 import Signup from "./Auth/Signup";
 
+import ComingSoon from "./download/ComingSoon";
+
 export default {
     ComponentsPage,
     Home,
     SecurePage,
     Login,
     Search,
-    Signup
+    Signup,
+    ComingSoon
 }

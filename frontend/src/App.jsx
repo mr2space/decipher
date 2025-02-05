@@ -13,6 +13,7 @@ const App = () => {
                 <Route path={URL.LOGIN_URL} element={<pages.Login />} />
                 <Route element={<components.PersistantLogin />}>
                     <Route path="/" element={<pages.Home />} />
+                    <Route path={URL.DOWNLOAD_URL} element={<pages.ComingSoon />} />
                     <Route element={<components.RequiredAuth />}>
                         <Route
                             path={URL.SPECIES_REACT_URL}
@@ -24,8 +25,7 @@ const App = () => {
                         />
                     </Route>
                 </Route>
-                <Route path={URL.SIGNUP_URL} element={<pages.Signup/>}>
-                    
+                <Route path={URL.SIGNUP_URL} element={<pages.Signup/>}>   
                 </Route>
             </Routes>
         </>

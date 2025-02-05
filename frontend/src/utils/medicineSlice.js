@@ -52,6 +52,8 @@ const medicineSlice = createSlice({
             .addCase(medicineSuggesion.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.error.message;
+                state.data = {};
+                state.problem = {};
             });
     },
 });

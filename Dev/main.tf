@@ -111,15 +111,3 @@ resource "aws_ecs_service" "sanjeevani_service" {
     assign_public_ip = true
   }
 }
-
-resource "aws_route53_zone" "main" {
-  name = "mrprincegoswami.in" # Replace with your domain name
-}
-
-resource "aws_route53_record" "app_record" {
-  zone_id = aws_route53_zone.main.zone_id
-  name    = "sanjeevani.mrprincegoswami.in" # Replace with your subdomain name
-  type    = "A"
-  ttl     = 60
-  records = [aws_ecs_service.sanjeevani_service.network_configuration[0].assign_public_ip ? "ECS_PUBLIC_IP" : ""] # Replace with the public IP of the container if available
-}

@@ -9,8 +9,6 @@ WORKDIR /home/backend
 COPY ./backend/package*.json .
 RUN npm install
 
-# Copy the backend code
-COPY ./backend .
 
 # Set up the frontend
 WORKDIR /home/frontend
@@ -20,8 +18,13 @@ RUN npm install
 # Copy the frontend code
 COPY ./frontend .
 
+# Copy the backend code
+WORKDIR /home/backend
+COPY ./backend .
+
 # Expose required ports
-EXPOSE 7000 5173
+EXPOSE 5173 5173
+EXPOSE 80 80
 
 # Start both backend and frontend processes
 WORKDIR /home

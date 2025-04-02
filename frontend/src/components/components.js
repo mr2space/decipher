@@ -12,6 +12,7 @@ import LoadingTip from "./Navbar/LoadingTip";
 import Footer from "./Footer/Footer"
 import Loader from "./Search/Loader";
 import SpecialYellowButton from "./Button/SpecialYellowButton";
+import ProfileButton from "./Button/ProfileButton"
 
 
 export default {
@@ -28,5 +29,6 @@ export default {
     LoadingTip,
     Footer,
     Loader,
-    SpecialYellowButton
+    SpecialYellowButton,
+    ProfileButton
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaLeaf } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import SignUpButton from "../Button/SignUpButton";
+import ProfileButton from "../Button/ProfileButton";
 
 import { NavbarURL } from "../../data/NavbarURL";
 
@@ -44,6 +45,7 @@ const Links = () => {
                             {credit} C
                         </Link>
                     </SignUpButton>
+                    <ProfileButton></ProfileButton>
                 </>
             )}
         </div>

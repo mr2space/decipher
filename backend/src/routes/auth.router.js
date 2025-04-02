@@ -24,7 +24,7 @@ router.route("/oauth").get(
 router.route("/google/oauth/callback").post(googleOAuthCallback);
 
 // secure route
-router.route("/logout").get(authenticate, logoutUser);
+router.route("/logout").post(authenticate, logoutUser);
 router.route("/delete").post(authenticate, deleteUser);
 router.route("/refresh-token").post(refreshAccessToken);
 router.route("/profile").get(authenticate, profile);

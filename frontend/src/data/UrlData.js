@@ -5,7 +5,7 @@ const URL = {
     GOOGLE_OAUTH_CALLBACK_URL:"/auth/google/oauth/callback", // todo: change this to /auth/google/callback
     SIGNUP_URL: "/auth/register",
     HOME_URL : "/",
-    BASE_URL : "http://localhost:80",
+    BASE_URL : "http://127.0.0.1:80",
     REFRESH_URL:"/auth/refresh-token",
     SPECIES_SEARCH_URL : "/search",
     SPECIES_REACT_URL:"/search/result",

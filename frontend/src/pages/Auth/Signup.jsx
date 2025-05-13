@@ -112,7 +112,7 @@ function Signup() {
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
-        if (!validateFields()) return;
+        // if (!validateFields()) return;
 
         try {
             const res = await axios.post(
@@ -138,11 +138,11 @@ function Signup() {
                     gender: "",
                 });
             } else {
-                toast.error(res.data.message || "Registration failed.");
+                toast.error(res.data.message || "Registration failed by server");
             }
         } catch (error) {
-            console.error("Registration error response:", error.response);
-            toast.error(error.response?.data?.message || "Registration failed");
+            console.error("Registration error response:", error);
+            toast.error(error.response?.data?.message || `Registration failed by server registration error`);
         }
     };
 

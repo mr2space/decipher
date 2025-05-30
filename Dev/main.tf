@@ -20,8 +20,8 @@ resource "aws_ecs_task_definition" "app_task" {
     essential   = true
     portMappings = [
       {
-        containerPort = 7000
-        hostPort      = 7000
+        containerPort = 80
+        hostPort      = 80
       },
       {
         containerPort = 5173
@@ -77,8 +77,8 @@ resource "aws_security_group" "ecs_task_security_group" {
   name_prefix = "ecs-task-sg"
 
   ingress {
-    from_port   = 7000
-    to_port     = 7000
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -111,3 +111,4 @@ resource "aws_ecs_service" "sanjeevani_service" {
     assign_public_ip = true
   }
 }
+

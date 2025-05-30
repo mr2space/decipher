@@ -1,0 +1,135 @@
+🌿 Sanjeevani Installation Guide
+Sanjeevani is a full-stack web application that leverages deep learning to identify medicinal plants using the InceptionV3 model. Follow the steps below to set up and run Sanjeevani on your local machine.
+
+
+🔧 Prerequisites
+Before you begin, ensure you have the following installed:
+
+Node.js (v18 or higher)
+
+npm or yarn
+
+Python 3.8+
+
+MongoDB (local or cloud-based like MongoDB Atlas)
+
+Git
+
+pip
+
+docker
+
+(Optional) virtualenv
+
+
+## 1. Environment Variables (`.env`)
+
+Create a `.env` file in the backend directory (.env).  
+Required variables:
+
+```env
+# MongoDB
+MONGO_URI=mongodb+srv://<username>:<password>@<cluster-url>/<dbname>?retryWrites=true&w=majority
+
+# AWS S3 (for image uploads)
+AWS_REGION=your-aws-region
+AWS_ACCESS_KEY_ID=your-access-key-id
+AWS_SECRET_ACCESS_KEY=your-secret-access-key
+AWS_BUCKET_NAME=your-s3-bucket-name
+
+# Session and Auth
+SESSION_SECRET=your-session-secret
+GEMINI_API_KEY = gemini_api_key
+MODEL_PLANT_API = ABC_live
+MODEL_PLANT_HOST = http://127.0.0.1:8000/predict
+
+GOOGLE_CLIENT_ID = google_gmap_client_id
+GOOGLE_CLIENT_SECRET = google_gmap_secret_key
+
+# (Optional) CORS
+CORS_ORIGIN=http://localhost:5173
+
+# (Optional) Server Port
+PORT=5000
+```
+
+Note:  
+- Replace values with your actual credentials.
+- If you use Google OAuth, add the required Google client secrets as well.
+
+---
+
+## 3. Install Dependencies
+
+### Backend
+
+```sh
+cd backend
+npm install
+```
+
+### Frontend
+
+```sh
+cd ../frontend
+npm install
+```
+
+---
+
+## 4. Run the Project
+
+### Development (Separate Terminals)
+
+- Backend:
+  ```sh
+  cd backend
+  npm start
+  ```
+- Frontend:
+  ```sh
+  cd frontend
+  npm run dev
+  ```
+
+The frontend will be available at [http://localhost:5173](http://localhost:5173).
+
+---
+
+## 5. Using Docker (Optional)
+
+Build and run the project using Docker:
+
+```sh
+cd model
+docker build -t fastapi-tf-cpu .
+docker run -p 8000:8000 fastapi-tf-cpu
+```
+
+---
+
+## 6. Additional Notes
+
+- Make sure your MongoDB and AWS S3 credentials are correct.
+- The backend expects image uploads to be sent as `multipart/form-data` with the field name `photo`.
+- Logs are stored in app.log.
+
+---
+
+You're ready to go!  
+If you have any issues, check your `.env` file and ensure all services (MongoDB, AWS S3) are accessible.
+
+✅ Testing the Setup
+Visit http://localhost:5173 to access the frontend
+
+Upload a plant image
+
+The prediction should appear along with plant details
+
+🛠 Troubleshooting
+Ensure MongoDB is running
+
+Check if the Python server is accessible from the backend
+
+Use browser dev tools to track API errors
+

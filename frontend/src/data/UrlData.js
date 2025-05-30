@@ -1,11 +1,11 @@
-const BASE_URL = "http://localhost:80";
+const BASE_URL = "http://3.232.133.200:80";
 
 const URL = {
     LOGIN_URL : "/auth/login",
     GOOGLE_OAUTH_CALLBACK_URL:"/auth/google/oauth/callback", // todo: change this to /auth/google/callback
     SIGNUP_URL: "/auth/register",
     HOME_URL : "/",
-    BASE_URL : "http://127.0.0.1:80",
+    BASE_URL : "http://44.223.9.218/",
     REFRESH_URL:"/auth/refresh-token",
     SPECIES_SEARCH_URL : "/search",
     SPECIES_REACT_URL:"/search/result",
